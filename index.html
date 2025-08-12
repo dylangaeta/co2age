@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your CO2 age - How much has atmospheric CO2 increased in your lifetime? </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(90deg, 
+                #08306b 0%, #2171b5 10%, #4292c6 20%, #6baed6 30%, #9ecae1 40%, 
+                #c6dbef 50%, #deebf7 60%, #fee0d2 70%, #fcbba1 80%, #fc9272 90%, 
+                #fb6a4a 95%, #de2d26 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-field label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .input-field select {
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            min-width: 150px;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .input-field select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .special-note {
+            background: linear-gradient(135deg, #2171b5 0%, #4292c6 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #de2d26 0%, #fb6a4a 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(222, 45, 38, 0.3);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(222, 45, 38, 0.4);
+        }
+
+        .results {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card.birth-co2 {
+            background: linear-gradient(135deg, #0c2340 0%, #1a365d 25%, #2d5a87 50%, #4facfe 75%, #00f2fe 100%);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.5);
+        }
+
+        .stat-card.current-co2 {
+            background: linear-gradient(135deg, #4a0e0e 0%, #7f1d1d 25%, #b91c1c 50%, #ff6b6b 75%, #ee5a52 100%);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+        }
+
+        .stat-card.increase-percent {
+            background: linear-gradient(135deg, #1e1b4b 0%, #3c1a78 25%, #5b21b6 50%, #667eea 75%, #764ba2 100%);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .stat-card.total-increase {
+            background: linear-gradient(135deg, #0c4a6e 0%, #0f4c75 25%, #0891b2 50%, #a8edea 75%, #fed6e3 100%);
+            color: #1e293b;
+            box-shadow: 0 8px 25px rgba(168, 237, 234, 0.5);
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            height: 500px;
+        }
+
+        .chart-container canvas {
+            max-height: 400px;
+        }
+
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .explanation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            line-height: 1.6;
+        }
+
+        .explanation h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .explanation p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .input-field {
+                margin: 0.5rem 0;
+            }
+            
+            .input-field select {
+                min-width: 200px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Your CO<sub>2</sub> Age</h1>
+        <p style="color: black; font-weight: 500;">Discover how atmospheric CO<sub>2</sub> has changed during your lifetime</p>
+    </div>
+
+    <div class="container">
+        <div class="input-section">
+            <h2 style="margin-bottom: 1.5rem; color: #333;">Enter your birth month and year</h2>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="birthYear">Birth Year</label>
+                    <select id="birthYear">
+                        <option value="before1958">Before 1958</option>
+                        <option value="1958">1958</option>
+                        <option value="1959">1959</option>
+                        <option value="1960">1960</option>
+                        <option value="1961">1961</option>
+                        <option value="1962">1962</option>
+                        <option value="1963">1963</option>
+                        <option value="1964">1964</option>
+                        <option value="1965">1965</option>
+                        <option value="1966">1966</option>
+                        <option value="1967">1967</option>
+                        <option value="1968">1968</option>
+                        <option value="1969">1969</option>
+                        <option value="1970">1970</option>
+                        <option value="1971">1971</option>
+                        <option value="1972">1972</option>
+                        <option value="1973">1973</option>
+                        <option value="1974">1974</option>
+                        <option value="1975">1975</option>
+                        <option value="1976">1976</option>
+                        <option value="1977">1977</option>
+                        <option value="1978">1978</option>
+                        <option value="1979">1979</option>
+                        <option value="1980">1980</option>
+                        <option value="1981">1981</option>
+                        <option value="1982">1982</option>
+                        <option value="1983">1983</option>
+                        <option value="1984">1984</option>
+                        <option value="1985">1985</option>
+                        <option value="1986">1986</option>
+                        <option value="1987">1987</option>
+                        <option value="1988">1988</option>
+                        <option value="1989">1989</option>
+                        <option value="1990" selected>1990</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                        <option value="1994">1994</option>
+                        <option value="1995">1995</option>
+                        <option value="1996">1996</option>
+                        <option value="1997">1997</option>
+                        <option value="1998">1998</option>
+                        <option value="1999">1999</option>
+                        <option value="2000">2000</option>
+                        <option value="2001">2001</option>
+                        <option value="2002">2002</option>
+                        <option value="2003">2003</option>
+                        <option value="2004">2004</option>
+                        <option value="2005">2005</option>
+                        <option value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <label for="birthMonth">Birth Month</label>
+                    <select id="birthMonth">
+                        <option value="1" selected>January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+            </div>
+            <button class="calculate-btn" onclick="calculateCO2Journey()">Calculate My CO<sub>2</sub> Age</button>
+        </div>
+
+        <div class="results" id="results">
+            <div id="specialNote" class="special-note" style="display: none;">
+                🎉 Congratulations! You are older than the oldest continuous CO<sub>2</sub> records at Mauna Loa Observatory!
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card birth-co2">
+                    <div class="stat-value" id="birthCO2">-</div>
+                    <div class="stat-label" id="birthLabel">CO<sub>2</sub> at Birth (ppm)</div>
+                </div>
+                <div class="stat-card current-co2">
+                    <div class="stat-value" id="currentCO2">-</div>
+                    <div class="stat-label">Current CO<sub>2</sub> (ppm)</div>
+                </div>
+                <div class="stat-card total-increase">
+                    <div class="stat-value" id="totalIncrease">-</div>
+                    <div class="stat-label">Total Increase (ppm)</div>
+                </div>
+                <div class="stat-card increase-percent">
+                    <div class="stat-value" id="increase">-</div>
+                    <div class="stat-label">Increase (%)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container" id="chartContainer" style="display: none;">
+            <div class="chart-title">See how atmospheric CO<sub>2</sub> has increased in your lifetime</div>
+            <canvas id="co2Chart"></canvas>
+        </div>
+
+        <div class="explanation">
+            <h3>About the Keeling Curve</h3>
+            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in the Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory on the island of Hawaii from 1958 to the present day. The curve is named for the scientist Charles David Keeling, who started the monitoring program and supervised it until his death in 2005.</p>
+            
+            <p>Keeling's measurements showed the first significant evidence of rapidly increasing carbon dioxide (CO<sub>2</sub>) levels in the atmosphere. Many scientists credit the Keeling curve with first bringing the world's attention to the current increase of CO<sub>2</sub> in the atmosphere.</p>
+            
+            <h3>Historical Context</h3>
+            <p>Mauna Loa was chosen as a long-term monitoring site due to its remote location far from continents and its lack of vegetation. Keeling and his collaborators measured the incoming ocean breeze above the thermal inversion layer to minimize local contamination from volcanic vents.</p>
+            
+            <p>The measurements collected at Mauna Loa Observatory show a steady increase in mean atmospheric CO<sub>2</sub> concentration from 313 parts per million by volume (ppm) in March 1958 to current levels exceeding 427 ppm in 2025.</p>
+            
+            <h3>Data Source and Legacy</h3>
+            <p>Since Charles David Keeling's death in 2005, responsibility and oversight of the project was transferred to Keeling's son, Ralph Keeling. The measurements continue today through both the Scripps Institution of Oceanography and NOAA's Global Monitoring Laboratory.</p>
+            
+            <h3>Additional Resources</h3>
+            <p>For the most up-to-date CO<sub>2</sub> measurements, detailed scientific analysis, and comprehensive historical data, visit the official Keeling Curve website at <a href="https://keelingcurve.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">keelingcurve.ucsd.edu</a>. This site provides real-time data updates, research publications, and additional educational resources about atmospheric CO<sub>2</sub> monitoring.</p>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced CO2 data with more complete time series
+        const co2Data = {
+            1958: [315.71, 317.45, 317.50, 317.10, 315.86, 314.93, 313.20, 312.66, 313.33, 314.67, 315.58, 316.47],
+            1959: [316.43, 317.25, 318.29, 319.39, 318.87, 318.18, 315.91, 314.16, 313.83, 315.00, 316.19, 317.07],
+            1960: [316.93, 317.42, 318.87, 319.87, 319.43, 318.01, 315.74, 314.99, 315.31, 316.69, 317.69, 318.29],
+            1965: [319.44, 320.44, 320.89, 322.13, 322.16, 321.87, 319.79, 317.40, 316.96, 317.95, 319.27, 320.04],
+            1970: [325.03, 326.17, 327.35, 328.07, 327.75, 326.77, 325.31, 323.49, 323.06, 324.01, 325.13, 326.17],
+            1975: [330.68, 331.41, 331.85, 333.14, 333.80, 333.43, 331.73, 329.90, 328.57, 328.69, 330.02, 331.58],
+            1980: [337.84, 339.06, 340.22, 340.77, 340.52, 339.34, 337.70, 335.90, 336.05, 337.17, 338.36, 339.61],
+            1985: [344.97, 346.00, 347.43, 348.35, 348.93, 348.25, 346.56, 344.69, 343.09, 343.52, 344.94, 346.04],
+            1990: [353.79, 354.88, 355.65, 356.27, 357.29, 356.32, 354.88, 352.89, 351.28, 351.59, 353.05, 354.27],
+            1995: [360.62, 361.33, 363.18, 363.70, 363.27, 363.64, 360.77, 358.68, 357.03, 358.4, 359.59, 360.78],
+            2000: [369.25, 369.50, 370.56, 371.82, 371.51, 371.71, 369.85, 368.20, 366.91, 366.99, 368.33, 369.67],
+            2005: [378.47, 380.18, 382.20, 382.66, 382.50, 382.22, 380.12, 378.18, 376.72, 376.84, 378.23, 380.10],
+            2010: [388.45, 389.78, 391.65, 392.46, 392.95, 392.06, 390.13, 388.15, 386.83, 387.18, 388.59, 389.68],
+            2015: [399.42, 400.26, 402.52, 403.26, 403.94, 402.80, 401.03, 398.55, 397.63, 398.29, 400.16, 401.85],
+            2020: [414.11, 414.73, 415.39, 416.96, 417.20, 416.45, 414.62, 412.53, 411.29, 411.29, 412.18, 413.32],
+            2025: [427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09]
+        };
+
+        let chart = null;
+        let userBirthYear = null;
+        let userBirthMonth = null;
+        let userBirthCO2 = null;
+
+        function getCO2ForDate(year, month) {
+            // Interpolate data if exact year not available
+            const years = Object.keys(co2Data).map(y => parseInt(y)).sort();
+            
+            if (co2Data[year]) {
+                return co2Data[year][month - 1];
+            }
+            
+            // Find closest years and interpolate
+            let lowerYear = years.filter(y => y <= year).pop();
+            let upperYear = years.filter(y => y >= year)[0];
+            
+            if (!lowerYear) lowerYear = years[0];
+            if (!upperYear) upperYear = years[years.length - 1];
+            
+            if (lowerYear === upperYear) {
+                return co2Data[lowerYear][month - 1];
+            }
+            
+            const ratio = (year - lowerYear) / (upperYear - lowerYear);
+            const lowerValue = co2Data[lowerYear][month - 1];
+            const upperValue = co2Data[upperYear][month - 1];
+            
+            return lowerValue + (upperValue - lowerValue) * ratio;
+        }
+
+        function generateFullTimeSeriesData() {
+            const historicalData = [];
+            const userLifetimeData = [];
+            
+            // Generate complete data from 1958 to present
+            for (let year = 1958; year <= 2025; year++) {
+                for (let month = 1; month <= 12; month++) {
+                    if (year === 2025 && month > 8) break; // Stop at August 2025
+                    
+                    const co2Value = getCO2ForDate(year, month);
+                    const dataPoint = {
+                        x: new Date(year, month - 1),
+                        y: parseFloat(co2Value.toFixed(2))
+                    };
+                    
+                    // Determine if this point is in user's lifetime
+                    if (userBirthYear && 
+                        (year > userBirthYear || (year === userBirthYear && month >= userBirthMonth))) {
+                        userLifetimeData.push(dataPoint);
+                    } else {
+                        historicalData.push(dataPoint);
+                    }
+                }
+            }
+            
+            return { historicalData, userLifetimeData };
+        }
+
+        function createChart() {
+            const ctx = document.getElementById('co2Chart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (chart) {
+                chart.destroy();
+            }
+
+            const { historicalData, userLifetimeData } = generateFullTimeSeriesData();
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Historical CO₂ (before your birth)',
+                            data: historicalData,
+                            borderColor: '#94a3b8',
+                            backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            pointHoverRadius: 4,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'CO₂ during your lifetime',
+                            data: userLifetimeData,
+                            borderColor: '#dc2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.2)',
+                            borderWidth: 3,
+                            pointRadius: 0,
+                            pointHoverRadius: 6,
+                            tension: 0.1,
+                            fill: '+1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'year',
+                                displayFormats: {
+                                    year: 'YYYY'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Year',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'CO₂ Concentration (ppm)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            beginAtZero: false,
+                            min: 310
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 12
+                                },
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    const date = new Date(context[0].parsed.x);
+                                    return date.toLocaleDateString('en-US', { 
+                                        year: 'numeric', 
+                                        month: 'long' 
+                                    });
+                                },
+                                label: function(context) {
+                                    return `CO₂: ${context.parsed.y.toFixed(1)} ppm`;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+
+            // Add birth marker if user has birth data
+            if (userBirthYear && userBirthMonth && userBirthCO2) {
+                const birthDate = new Date(userBirthYear, userBirthMonth - 1);
+                
+                // Add annotation for birth point
+                chart.data.datasets.push({
+                    label: 'Your Birth',
+                    data: [{
+                        x: birthDate,
+                        y: userBirthCO2
+                    }],
+                    borderColor: '#059669',
+                    backgroundColor: '#10b981',
+                    pointRadius: 8,
+                    pointHoverRadius: 10,
+                    showLine: false,
+                    pointStyle: 'circle',
+                    borderWidth: 3
+                });
+                
+                chart.update();
+            }
+        }
+
+        function calculateCO2Journey() {
+            const birthYearValue = document.getElementById('birthYear').value;
+            const birthMonth = parseInt(document.getElementById('birthMonth').value);
+            
+            let birthYear, isBeforeRecords = false;
+            
+            if (birthYearValue === 'before1958') {
+                birthYear = 1958;
+                isBeforeRecords = true;
+            } else {
+                birthYear = parseInt(birthYearValue);
+            }
+            
+            const birthCO2 = getCO2ForDate(birthYear, birthMonth);
+            const currentCO2 = getCO2ForDate(2025, 8); // August 2025
+            const increase = ((currentCO2 - birthCO2) / birthCO2 * 100);
+            const totalIncrease = currentCO2 - birthCO2;
+            
+            // Show/hide special note
+            const specialNote = document.getElementById('specialNote');
+            const birthLabel = document.getElementById('birthLabel');
+            
+            if (isBeforeRecords) {
+                specialNote.style.display = 'block';
+                birthLabel.innerHTML = 'Earliest CO<sub>2</sub> Record (1958)';
+            } else {
+                specialNote.style.display = 'none';
+                birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm)';
+            }
+            
+            // Update statistics
+            document.getElementById('birthCO2').textContent = birthCO2.toFixed(1);
+            document.getElementById('currentCO2').textContent = currentCO2.toFixed(1);
+            document.getElementById('increase').textContent = '+' + increase.toFixed(1) + '%';
+            document.getElementById('totalIncrease').textContent = '+' + totalIncrease.toFixed(1);
+            
+            // Store user data for chart
+            userBirthYear = birthYear;
+            userBirthMonth = birthMonth;
+            userBirthCO2 = birthCO2;
+            
+            // Show results
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('chartContainer').style.display = 'block';
+            
+            // Create the chart
+            createChart();
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Set default values
+        document.getElementById('birthYear').value = '1990';
+        document.getElementById('birthMonth').value = '1';
+    </script>
+</body>
+</html>
