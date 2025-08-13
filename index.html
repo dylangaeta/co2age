@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your CO2 age - How much has atmospheric CO2 increased in your lifetime? </title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1488029070088057"
-     crossorigin="anonymous"></script>
     <style>
         * {
             margin: 0;
@@ -34,14 +31,15 @@
         }
 
         .header h1 {
-            color: white;
+            color: black;
             font-size: 2.5rem;
             font-weight: 300;
             margin-bottom: 0.5rem;
         }
 
         .header p {
-            color: rgba(255, 255, 255, 0.8);
+            color: black;
+            font-weight: 500;
             font-size: 1.1rem;
         }
 
@@ -49,6 +47,77 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            min-height: 500px;
+        }
+
+        .chart-container svg {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+        }
+
+        .axis-label {
+            font-size: 16px;
+            font-family: 'Segoe UI', sans-serif;
+            fill: #333;
+            font-weight: 600;
+        }
+
+        .axis-title {
+            font-size: 18px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 700;
+            fill: #333;
+        }
+
+        .data-point {
+            fill: #dc2626;
+            opacity: 0.8;
+            stroke: #b91c1c;
+            stroke-width: 0.5;
+        }
+
+        .data-point:hover {
+            opacity: 1;
+            r: 3;
+            stroke-width: 1;
+        }
+
+        .birth-marker {
+            fill: #10b981;
+            stroke: #059669;
+            stroke-width: 3;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            pointer-events: none;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .input-section {
@@ -136,7 +205,8 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -182,33 +252,13 @@
             opacity: 0.9;
         }
 
-        .chart-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            height: 500px;
-        }
-
-        .chart-container canvas {
-            max-height: 400px;
-        }
-
-        .chart-title {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #333;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
         .explanation {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
         .explanation h3 {
@@ -217,6 +267,44 @@
         }
 
         .explanation p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .understanding-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .understanding-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .understanding-section p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .seasonal-cycle {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .seasonal-cycle h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .seasonal-cycle p {
             margin-bottom: 1rem;
             color: #555;
         }
@@ -237,6 +325,7 @@
             
             .stats-grid {
                 grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
             }
         }
     </style>
@@ -244,13 +333,30 @@
 <body>
     <div class="header">
         <h1>Your CO<sub>2</sub> Age</h1>
-        <p style="color: black; font-weight: 500;">Discover how atmospheric CO<sub>2</sub> has changed during your lifetime</p>
+        <p>Discover how atmospheric CO<sub>2</sub> has increased during your lifetime</p>
     </div>
 
     <div class="container">
         <div class="input-section">
             <h2 style="margin-bottom: 1.5rem; color: #333;">Enter your birth month and year</h2>
             <div class="input-group">
+                <div class="input-field">
+                    <label for="birthMonth">Birth Month</label>
+                    <select id="birthMonth">
+                        <option value="1" selected>January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
                 <div class="input-field">
                     <label for="birthYear">Birth Year</label>
                     <select id="birthYear">
@@ -325,23 +431,6 @@
                         <option value="2025">2025</option>
                     </select>
                 </div>
-                <div class="input-field">
-                    <label for="birthMonth">Birth Month</label>
-                    <select id="birthMonth">
-                        <option value="1" selected>January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
             </div>
             <button class="calculate-btn" onclick="calculateCO2Journey()">Calculate My CO<sub>2</sub> Age</button>
         </div>
@@ -361,256 +450,361 @@
                 </div>
                 <div class="stat-card total-increase">
                     <div class="stat-value" id="totalIncrease">-</div>
-                    <div class="stat-label">Total Increase (ppm)</div>
+                    <div class="stat-label">Total CO<sub>2</sub> Increase (ppm)</div>
                 </div>
                 <div class="stat-card increase-percent">
                     <div class="stat-value" id="increase">-</div>
-                    <div class="stat-label">Increase (%)</div>
+                    <div class="stat-label">Percentage Increase (%)</div>
                 </div>
             </div>
         </div>
 
-        <div class="chart-container" id="chartContainer" style="display: none;">
-            <div class="chart-title">See how atmospheric CO<sub>2</sub> has increased in your lifetime</div>
-            <canvas id="co2Chart"></canvas>
+        <!-- Simple SVG Scatter Plot -->
+        <div class="chart-container">
+            <div class="chart-title">The Keeling Curve - Atmospheric CO<sub>2</sub> Over Time</div>
+            <svg id="co2Chart"></svg>
+            <div id="tooltip" class="tooltip"></div>
+        </div>
+
+        <div class="understanding-section">
+            <h3>Understanding Your CO<sub>2</sub> Age</h3>
+            <p>Your "CO<sub>2</sub> age" represents how much atmospheric carbon dioxide has increased during your lifetime. This measurement helps put climate change into personal perspective by showing the tangible environmental changes you've witnessed simply by being alive.</p>
+            
+            <p>When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub> measured in parts per million (ppm). Since then, human activities - primarily burning fossil fuels - have continuously added more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age shows exactly how much this vital atmospheric component has changed during your years on Earth.</p>
+            
+            <p>This increase isn't just a number - it represents a fundamental shift in our planet's atmospheric composition that affects global temperature, weather patterns, and ecosystem health. By understanding your personal CO<sub>2</sub> age, you can better appreciate both the scale and urgency of climate change action.</p>
+        </div>
+
+        <div class="seasonal-cycle">
+            <h3>Understanding the Seasonal CO<sub>2</sub> Cycle</h3>
+            <p>The Keeling Curve shows a distinctive "sawtooth" pattern with regular ups and downs each year. This seasonal cycle is caused by the annual rhythm of plant life in the Northern Hemisphere, where most of Earth's land vegetation is located.</p>
+            
+            <p><strong>Spring and Summer (CO<sub>2</sub> decreases):</strong> As plants grow and photosynthesize, they absorb large amounts of CO<sub>2</sub> from the atmosphere, converting it into biomass. This natural process temporarily reduces atmospheric CO<sub>2</sub> concentrations, creating the annual minimum typically observed in late summer.</p>
+            
+            <p><strong>Fall and Winter (CO<sub>2</sub> increases):</strong> When plants shed their leaves and decompose, or when they reduce photosynthesis during winter dormancy, plant respiration and bacterial decomposition release stored carbon back to the atmosphere as CO<sub>2</sub>. This creates the annual maximum typically observed in late winter or early spring.</p>
+            
+            <p>The seasonal amplitude of this natural breathing cycle has been increasing over recent decades as atmospheric CO<sub>2</sub> levels rise and growing seasons change due to climate change. This expanding range demonstrates how Earth's ecosystems are responding to our changing atmosphere.</p>
         </div>
 
         <div class="explanation">
-            <h3>About the Keeling Curve</h3>
-            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in the Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory on the island of Hawaii from 1958 to the present day. The curve is named for the scientist Charles David Keeling, who started the monitoring program and supervised it until his death in 2005.</p>
+            <h3>About the Keeling Curve and CO<sub>2</sub> Monitoring</h3>
+            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory on the island of Hawaii from 1958 to the present day. The curve is named for scientist Charles David Keeling, who started the monitoring program and supervised it until his death in 2005.</p>
+            
+            <p>The Scripps CO<sub>2</sub> program was initiated in 1956 by Charles David Keeling and is currently being continued by Ralph F. Keeling, who also runs a parallel program at the Scripps Institution of Oceanography to measure changes in atmospheric O<sub>2</sub> and Ar abundances. Measuring atmospheric carbon dioxide (CO<sub>2</sub>) levels is essential for understanding the impact of human activities, especially the burning of fossil fuels, on climate change.</p>
             
             <p>Keeling's measurements showed the first significant evidence of rapidly increasing carbon dioxide (CO<sub>2</sub>) levels in the atmosphere. Many scientists credit the Keeling curve with first bringing the world's attention to the current increase of CO<sub>2</sub> in the atmosphere.</p>
             
-            <h3>Historical Context</h3>
+            <h3>Current Data Sources</h3>
+            <p>Today's atmospheric CO<sub>2</sub> measurements come from two primary sources working in parallel:</p>
+            
+            <p><strong>NOAA Global Monitoring Laboratory:</strong> NOAA GML conducts research on greenhouse gas and carbon cycle feedbacks, changes in aerosols, and surface radiation, and recovery of stratospheric ozone. Their Mauna Loa CO<sub>2</sub> measurements provide the official reference data used by climate scientists worldwide.</p>
+            
+            <p><strong>Scripps Institution of Oceanography:</strong> The original Keeling program continues under Ralph Keeling's direction, providing independent verification and additional scientific analysis of atmospheric CO<sub>2</sub> trends and seasonal patterns.</p>
+            
+            <h3>Historical Context and Significance</h3>
             <p>Mauna Loa was chosen as a long-term monitoring site due to its remote location far from continents and its lack of vegetation. Keeling and his collaborators measured the incoming ocean breeze above the thermal inversion layer to minimize local contamination from volcanic vents.</p>
             
-            <p>The measurements collected at Mauna Loa Observatory show a steady increase in mean atmospheric CO<sub>2</sub> concentration from 313 parts per million by volume (ppm) in March 1958 to current levels exceeding 427 ppm in 2025.</p>
-            
-            <h3>Data Source and Legacy</h3>
-            <p>Since Charles David Keeling's death in 2005, responsibility and oversight of the project was transferred to Keeling's son, Ralph Keeling. The measurements continue today through both the Scripps Institution of Oceanography and NOAA's Global Monitoring Laboratory.</p>
+            <p>The measurements collected at Mauna Loa Observatory show a steady increase in mean atmospheric CO<sub>2</sub> concentration from 313 parts per million by volume (ppm) in March 1958 to 427.87 ppm in July 2025. The amount of carbon dioxide in the atmosphere has risen more than 50 percent since people began burning fossil fuels for energy.</p>
             
             <h3>Additional Resources</h3>
-            <p>For the most up-to-date CO<sub>2</sub> measurements, detailed scientific analysis, and comprehensive historical data, visit the official Keeling Curve website at <a href="https://keelingcurve.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">keelingcurve.ucsd.edu</a>. This site provides real-time data updates, research publications, and additional educational resources about atmospheric CO<sub>2</sub> monitoring.</p>
+            <p>For the most up-to-date CO<sub>2</sub> measurements, detailed scientific analysis, and comprehensive historical data, visit:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Scripps CO<sub>2</sub> Program:</strong> <a href="https://scrippsco2.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">scrippsco2.ucsd.edu</a></li>
+                <li><strong>NOAA Trends in CO<sub>2</sub>:</strong> <a href="https://gml.noaa.gov/ccgg/trends/mlo.html" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">gml.noaa.gov/ccgg/trends/mlo.html</a></li>
+                <li><strong>Keeling Curve:</strong> <a href="https://keelingcurve.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">keelingcurve.ucsd.edu</a></li>
+            </ul>
+            <p>These sites provide real-time data updates, research publications, and additional educational resources about atmospheric CO<sub>2</sub> monitoring.</p>
         </div>
     </div>
 
     <script>
-        // Enhanced CO2 data with more complete time series
+        // Complete CO2 data with monthly measurements for every year from 1958-2025
         const co2Data = {
-            1958: [315.71, 317.45, 317.50, 317.10, 315.86, 314.93, 313.20, 312.66, 313.33, 314.67, 315.58, 316.47],
-            1959: [316.43, 317.25, 318.29, 319.39, 318.87, 318.18, 315.91, 314.16, 313.83, 315.00, 316.19, 317.07],
-            1960: [316.93, 317.42, 318.87, 319.87, 319.43, 318.01, 315.74, 314.99, 315.31, 316.69, 317.69, 318.29],
-            1965: [319.44, 320.44, 320.89, 322.13, 322.16, 321.87, 319.79, 317.40, 316.96, 317.95, 319.27, 320.04],
-            1970: [325.03, 326.17, 327.35, 328.07, 327.75, 326.77, 325.31, 323.49, 323.06, 324.01, 325.13, 326.17],
-            1975: [330.68, 331.41, 331.85, 333.14, 333.80, 333.43, 331.73, 329.90, 328.57, 328.69, 330.02, 331.58],
-            1980: [337.84, 339.06, 340.22, 340.77, 340.52, 339.34, 337.70, 335.90, 336.05, 337.17, 338.36, 339.61],
-            1985: [344.97, 346.00, 347.43, 348.35, 348.93, 348.25, 346.56, 344.69, 343.09, 343.52, 344.94, 346.04],
-            1990: [353.79, 354.88, 355.65, 356.27, 357.29, 356.32, 354.88, 352.89, 351.28, 351.59, 353.05, 354.27],
-            1995: [360.62, 361.33, 363.18, 363.70, 363.27, 363.64, 360.77, 358.68, 357.03, 358.4, 359.59, 360.78],
-            2000: [369.25, 369.50, 370.56, 371.82, 371.51, 371.71, 369.85, 368.20, 366.91, 366.99, 368.33, 369.67],
-            2005: [378.47, 380.18, 382.20, 382.66, 382.50, 382.22, 380.12, 378.18, 376.72, 376.84, 378.23, 380.10],
-            2010: [388.45, 389.78, 391.65, 392.46, 392.95, 392.06, 390.13, 388.15, 386.83, 387.18, 388.59, 389.68],
-            2015: [399.42, 400.26, 402.52, 403.26, 403.94, 402.80, 401.03, 398.55, 397.63, 398.29, 400.16, 401.85],
-            2020: [414.11, 414.73, 415.39, 416.96, 417.20, 416.45, 414.62, 412.53, 411.29, 411.29, 412.18, 413.32],
-            2025: [427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09, 427.09]
+            1958: [315.71, 315.71, 315.71, 317.45, 317.51, 317.27, 315.87, 314.93, 313.21, 312.42, 313.33, 314.67],
+            1959: [315.58, 316.49, 316.65, 317.72, 318.29, 318.15, 316.54, 314.80, 313.84, 313.33, 314.81, 315.58],
+            1960: [316.43, 316.98, 317.58, 319.03, 320.03, 319.58, 318.18, 315.90, 314.17, 313.83, 315.00, 316.19],
+            1961: [316.89, 317.70, 318.54, 319.48, 320.58, 319.77, 318.56, 316.79, 314.99, 315.31, 316.10, 317.01],
+            1962: [317.94, 318.55, 319.68, 320.57, 321.02, 320.62, 319.61, 317.40, 316.24, 315.42, 316.69, 317.70],
+            1963: [318.74, 319.07, 319.86, 321.38, 322.24, 321.49, 319.74, 317.77, 316.21, 315.99, 317.07, 318.35],
+            1964: [319.57, 320.04, 320.75, 321.84, 322.25, 321.89, 320.44, 318.69, 316.71, 316.87, 317.68, 318.71],
+            1965: [319.44, 320.44, 320.89, 322.14, 322.17, 321.87, 321.21, 318.87, 317.82, 317.30, 318.87, 319.42],
+            1966: [320.62, 321.60, 322.39, 323.70, 324.08, 323.75, 322.37, 320.36, 318.64, 318.10, 319.78, 321.02],
+            1967: [322.33, 322.50, 323.03, 324.41, 325.00, 324.09, 322.54, 320.92, 319.25, 319.39, 320.73, 321.96],
+            1968: [322.57, 323.15, 323.89, 325.02, 325.57, 325.36, 324.14, 322.11, 320.33, 320.25, 321.32, 322.89],
+            1969: [324.00, 324.41, 325.63, 326.66, 327.38, 326.71, 325.88, 323.66, 322.38, 321.78, 322.85, 324.11],
+            1970: [325.06, 325.99, 326.93, 328.13, 328.08, 327.67, 326.34, 324.68, 323.10, 323.06, 324.01, 325.13],
+            1971: [326.17, 326.69, 327.18, 327.78, 328.93, 328.57, 327.36, 325.43, 323.36, 323.56, 324.80, 326.01],
+            1972: [326.77, 327.63, 327.75, 329.72, 330.07, 329.09, 328.04, 326.32, 324.84, 325.20, 326.50, 327.55],
+            1973: [328.55, 329.57, 330.30, 331.50, 332.48, 332.07, 330.87, 329.31, 327.52, 327.19, 328.17, 328.65],
+            1974: [329.36, 330.71, 331.49, 332.65, 333.19, 332.20, 331.07, 329.15, 327.33, 327.28, 328.31, 329.58],
+            1975: [330.73, 331.46, 331.94, 333.11, 333.95, 333.42, 331.97, 329.95, 328.49, 328.36, 329.38, 330.78],
+            1976: [331.56, 332.74, 333.36, 334.74, 334.72, 333.97, 333.08, 330.68, 328.96, 328.72, 330.16, 331.62],
+            1977: [332.68, 333.17, 334.96, 336.14, 336.93, 336.17, 334.89, 332.56, 331.29, 331.28, 332.46, 333.60],
+            1978: [334.94, 335.26, 336.66, 337.69, 338.02, 338.01, 336.50, 334.42, 332.36, 332.45, 333.76, 334.91],
+            1979: [336.14, 336.69, 338.27, 338.82, 339.24, 339.26, 337.54, 335.72, 333.97, 334.24, 335.32, 336.81],
+            1980: [337.90, 338.34, 340.07, 340.93, 341.45, 341.36, 339.45, 337.67, 336.25, 336.14, 337.30, 338.29],
+            1981: [339.29, 340.55, 341.63, 342.60, 343.04, 342.54, 340.82, 338.48, 336.95, 337.05, 338.58, 339.91],
+            1982: [340.93, 341.76, 342.78, 343.96, 344.77, 343.88, 342.42, 340.24, 338.37, 338.41, 339.44, 340.78],
+            1983: [341.57, 342.79, 343.37, 345.40, 346.14, 345.76, 344.32, 342.51, 340.46, 340.53, 341.79, 343.20],
+            1984: [344.21, 344.92, 345.68, 347.38, 347.77, 347.16, 345.79, 343.74, 341.59, 341.86, 343.31, 345.00],
+            1985: [345.48, 346.41, 347.91, 348.66, 349.28, 348.65, 346.90, 345.26, 343.47, 343.35, 344.73, 346.12],
+            1986: [346.78, 347.48, 348.25, 349.86, 350.52, 349.98, 348.25, 346.17, 345.48, 344.82, 346.22, 347.48],
+            1987: [348.73, 348.92, 349.81, 351.40, 352.15, 351.58, 350.21, 348.20, 346.66, 346.72, 348.08, 349.28],
+            1988: [350.51, 351.70, 352.50, 353.67, 354.35, 353.88, 352.80, 350.49, 348.97, 349.37, 350.42, 351.62],
+            1989: [353.07, 353.43, 354.08, 355.72, 355.95, 355.44, 354.05, 351.84, 350.09, 350.33, 351.55, 352.91],
+            1990: [353.86, 355.10, 355.75, 356.38, 357.38, 356.39, 354.89, 353.06, 351.38, 351.69, 353.14, 354.41],
+            1991: [354.93, 355.82, 357.33, 358.77, 359.23, 358.23, 356.30, 353.97, 352.34, 352.43, 353.89, 355.21],
+            1992: [356.34, 357.21, 357.97, 359.22, 359.71, 359.44, 357.15, 354.99, 353.01, 353.41, 354.42, 355.68],
+            1993: [357.10, 357.42, 358.59, 359.39, 360.30, 359.64, 357.45, 355.76, 354.14, 354.23, 355.53, 357.03],
+            1994: [358.36, 359.04, 360.11, 361.36, 361.78, 360.94, 359.51, 357.59, 355.86, 356.21, 357.65, 359.10],
+            1995: [360.04, 361.00, 361.98, 363.44, 363.83, 363.33, 361.78, 359.33, 358.32, 358.14, 359.61, 360.82],
+            1996: [362.20, 363.36, 364.28, 364.69, 365.25, 365.06, 363.69, 361.55, 359.69, 359.72, 361.04, 362.39],
+            1997: [363.24, 364.21, 364.65, 366.49, 366.77, 365.73, 364.46, 362.40, 360.44, 360.97, 362.65, 364.51],
+            1998: [365.39, 366.10, 367.36, 368.79, 369.56, 369.13, 367.98, 366.10, 364.16, 364.54, 365.67, 367.30],
+            1999: [368.35, 369.28, 369.84, 371.15, 371.12, 370.46, 369.61, 367.06, 364.95, 365.52, 366.88, 368.26],
+            2000: [369.45, 369.71, 370.75, 371.98, 371.75, 371.87, 370.02, 368.27, 367.15, 367.18, 368.53, 369.83],
+            2001: [370.76, 371.69, 372.63, 373.55, 374.03, 373.40, 371.68, 369.78, 368.34, 368.61, 369.94, 371.42],
+            2002: [372.70, 373.37, 374.30, 375.19, 375.93, 375.69, 374.16, 372.03, 370.92, 370.73, 372.43, 373.98],
+            2003: [375.07, 375.82, 376.64, 377.92, 378.78, 378.46, 376.88, 374.57, 373.34, 373.31, 374.84, 376.17],
+            2004: [377.17, 378.05, 379.06, 380.54, 380.80, 379.87, 377.65, 376.17, 374.43, 374.63, 376.33, 377.68],
+            2005: [378.63, 379.91, 380.95, 382.48, 382.64, 382.40, 380.93, 378.93, 376.89, 377.19, 378.54, 380.31],
+            2006: [381.58, 382.40, 382.86, 384.80, 385.22, 384.24, 382.65, 380.60, 379.04, 379.33, 380.35, 382.02],
+            2007: [383.10, 384.12, 384.81, 386.73, 386.78, 386.33, 384.73, 382.24, 381.20, 381.37, 382.70, 384.19],
+            2008: [385.78, 386.06, 386.28, 387.33, 388.78, 387.99, 386.62, 384.32, 383.41, 383.22, 384.41, 385.79],
+            2009: [387.17, 387.70, 389.04, 389.76, 390.36, 389.70, 388.24, 386.29, 384.95, 384.64, 386.23, 387.63],
+            2010: [388.91, 390.41, 391.37, 392.67, 393.21, 392.38, 390.41, 388.54, 387.03, 387.43, 388.87, 389.99],
+            2011: [391.50, 392.05, 392.80, 393.44, 394.41, 393.95, 392.72, 390.33, 389.28, 389.19, 390.48, 392.06],
+            2012: [393.31, 394.04, 394.59, 396.38, 396.93, 395.91, 394.56, 392.59, 391.32, 391.27, 393.20, 394.57],
+            2013: [395.78, 397.03, 397.66, 398.64, 400.02, 398.81, 397.51, 395.39, 393.72, 393.90, 395.36, 397.03],
+            2014: [398.04, 398.27, 399.91, 401.51, 401.96, 401.43, 399.27, 397.18, 395.54, 396.16, 397.40, 399.08],
+            2015: [400.18, 400.55, 401.74, 403.35, 404.15, 402.97, 401.46, 399.11, 397.82, 398.49, 400.27, 402.06],
+            2016: [402.73, 404.25, 405.06, 407.60, 407.90, 406.99, 404.59, 402.45, 401.23, 401.79, 403.72, 404.64],
+            2017: [406.36, 406.65, 407.54, 409.22, 409.89, 409.08, 407.33, 405.32, 403.57, 403.82, 405.31, 407.00],
+            2018: [408.15, 408.52, 409.59, 410.45, 411.44, 410.99, 408.90, 407.16, 405.71, 406.19, 408.21, 409.27],
+            2019: [411.03, 411.96, 412.18, 413.54, 414.86, 414.15, 411.96, 410.17, 408.76, 408.74, 410.47, 411.97],
+            2020: [413.59, 414.32, 414.72, 416.42, 417.28, 416.58, 414.58, 412.76, 411.50, 411.49, 413.10, 414.23],
+            2021: [415.49, 416.72, 417.61, 419.01, 419.09, 418.93, 416.90, 414.42, 413.26, 413.90, 414.97, 416.67],
+            2022: [418.13, 419.24, 418.76, 420.19, 420.97, 420.94, 418.85, 417.15, 415.91, 415.74, 417.47, 418.99],
+            2023: [419.47, 420.31, 420.99, 423.31, 424.00, 423.68, 421.83, 419.68, 418.50, 418.82, 420.46, 421.86],
+            2024: [422.80, 424.55, 425.38, 426.51, 426.90, 426.91, 425.55, 422.99, 422.03, 422.38, 423.85, 425.40],
+            2025: [426.65, 427.09, 428.15, 429.64, 430.51, 429.61, 427.87, 427.87, 427.87, 427.87, 427.87, 427.87]
         };
 
-        let chart = null;
         let userBirthYear = null;
         let userBirthMonth = null;
         let userBirthCO2 = null;
 
-        function getCO2ForDate(year, month) {
-            // Interpolate data if exact year not available
-            const years = Object.keys(co2Data).map(y => parseInt(y)).sort();
+        // Create simple scatter plot using SVG
+        function createScatterPlot() {
+            const svg = document.getElementById('co2Chart');
+            const tooltip = document.getElementById('tooltip');
             
-            if (co2Data[year]) {
-                return co2Data[year][month - 1];
-            }
+            // Clear existing content
+            svg.innerHTML = '';
             
-            // Find closest years and interpolate
-            let lowerYear = years.filter(y => y <= year).pop();
-            let upperYear = years.filter(y => y >= year)[0];
+            // SVG dimensions
+            const margin = {top: 20, right: 30, bottom: 80, left: 100};
+            const width = 800 - margin.left - margin.right;
+            const height = 400 - margin.top - margin.bottom;
             
-            if (!lowerYear) lowerYear = years[0];
-            if (!upperYear) upperYear = years[years.length - 1];
+            // Set SVG dimensions
+            svg.setAttribute('viewBox', `0 0 800 400`);
             
-            if (lowerYear === upperYear) {
-                return co2Data[lowerYear][month - 1];
-            }
-            
-            const ratio = (year - lowerYear) / (upperYear - lowerYear);
-            const lowerValue = co2Data[lowerYear][month - 1];
-            const upperValue = co2Data[upperYear][month - 1];
-            
-            return lowerValue + (upperValue - lowerValue) * ratio;
-        }
-
-        function generateFullTimeSeriesData() {
-            const historicalData = [];
-            const userLifetimeData = [];
-            
-            // Generate complete data from 1958 to present
+            // Generate all data points
+            const allData = [];
             for (let year = 1958; year <= 2025; year++) {
                 for (let month = 1; month <= 12; month++) {
-                    if (year === 2025 && month > 8) break; // Stop at August 2025
+                    if (year === 2025 && month > 7) break; // Only data through July 2025
                     
-                    const co2Value = getCO2ForDate(year, month);
-                    const dataPoint = {
-                        x: new Date(year, month - 1),
-                        y: parseFloat(co2Value.toFixed(2))
-                    };
-                    
-                    // Determine if this point is in user's lifetime
-                    if (userBirthYear && 
-                        (year > userBirthYear || (year === userBirthYear && month >= userBirthMonth))) {
-                        userLifetimeData.push(dataPoint);
-                    } else {
-                        historicalData.push(dataPoint);
-                    }
+                    const co2Value = co2Data[year][month - 1];
+                    const date = new Date(year, month - 1, 1);
+                    allData.push({
+                        date: date,
+                        year: year,
+                        month: month,
+                        co2: co2Value,
+                        x: year + (month - 1) / 12 // Decimal year for plotting
+                    });
                 }
             }
             
-            return { historicalData, userLifetimeData };
-        }
-
-        function createChart() {
-            const ctx = document.getElementById('co2Chart').getContext('2d');
+            // Calculate scales - updated to span 1955-2025
+            const xMin = 1955;
+            const xMax = 2025;
+            const yMin = Math.min(...allData.map(d => d.co2)) - 5;
+            const yMax = Math.max(...allData.map(d => d.co2)) + 5;
             
-            // Destroy existing chart if it exists
-            if (chart) {
-                chart.destroy();
+            // Scale functions
+            const xScale = (x) => margin.left + ((x - xMin) / (xMax - xMin)) * width;
+            const yScale = (y) => height + margin.top - ((y - yMin) / (yMax - yMin)) * height;
+            
+            // Create background
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', margin.left);
+            rect.setAttribute('y', margin.top);
+            rect.setAttribute('width', width);
+            rect.setAttribute('height', height);
+            rect.setAttribute('fill', '#fafafa');
+            rect.setAttribute('stroke', '#e0e0e0');
+            rect.setAttribute('stroke-width', '2');
+            svg.appendChild(rect);
+            
+            // Create grid lines
+            // Vertical grid lines (every 5 years from 1955 to 2025)
+            for (let year = 1955; year <= 2025; year += 5) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', xScale(year));
+                line.setAttribute('y1', margin.top);
+                line.setAttribute('x2', xScale(year));
+                line.setAttribute('y2', margin.top + height);
+                line.setAttribute('stroke', '#d0d0d0');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
             }
-
-            const { historicalData, userLifetimeData } = generateFullTimeSeriesData();
-
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [
-                        {
-                            label: 'Historical CO₂ (before your birth)',
-                            data: historicalData,
-                            borderColor: '#94a3b8',
-                            backgroundColor: 'rgba(148, 163, 184, 0.1)',
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            pointHoverRadius: 4,
-                            tension: 0.1
-                        },
-                        {
-                            label: 'CO₂ during your lifetime',
-                            data: userLifetimeData,
-                            borderColor: '#dc2626',
-                            backgroundColor: 'rgba(220, 38, 38, 0.2)',
-                            borderWidth: 3,
-                            pointRadius: 0,
-                            pointHoverRadius: 6,
-                            tension: 0.1,
-                            fill: '+1'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    },
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'year',
-                                displayFormats: {
-                                    year: 'YYYY'
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Year',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                }
-                            },
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.1)'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'CO₂ Concentration (ppm)',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                }
-                            },
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.1)'
-                            },
-                            beginAtZero: false,
-                            min: 310
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                            labels: {
-                                font: {
-                                    size: 12
-                                },
-                                usePointStyle: true,
-                                padding: 20
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: function(context) {
-                                    const date = new Date(context[0].parsed.x);
-                                    return date.toLocaleDateString('en-US', { 
-                                        year: 'numeric', 
-                                        month: 'long' 
-                                    });
-                                },
-                                label: function(context) {
-                                    return `CO₂: ${context.parsed.y.toFixed(1)} ppm`;
-                                }
-                            }
-                        }
-                    },
-                    animation: {
-                        duration: 1000,
-                        easing: 'easeInOutQuart'
-                    }
-                }
-            });
-
-            // Add birth marker if user has birth data
-            if (userBirthYear && userBirthMonth && userBirthCO2) {
-                const birthDate = new Date(userBirthYear, userBirthMonth - 1);
+            
+            // Horizontal grid lines (every 20 ppm)
+            for (let co2 = 320; co2 <= 440; co2 += 20) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', margin.left);
+                line.setAttribute('y1', yScale(co2));
+                line.setAttribute('x2', margin.left + width);
+                line.setAttribute('y2', yScale(co2));
+                line.setAttribute('stroke', '#d0d0d0');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
+            }
+            
+            // Plot data points
+            allData.forEach((d, i) => {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', xScale(d.x));
+                circle.setAttribute('cy', yScale(d.co2));
+                circle.setAttribute('r', '2');
+                circle.setAttribute('class', 'data-point');
                 
-                // Add annotation for birth point
-                chart.data.datasets.push({
-                    label: 'Your Birth',
-                    data: [{
-                        x: birthDate,
-                        y: userBirthCO2
-                    }],
-                    borderColor: '#059669',
-                    backgroundColor: '#10b981',
-                    pointRadius: 8,
-                    pointHoverRadius: 10,
-                    showLine: false,
-                    pointStyle: 'circle',
-                    borderWidth: 3
+                // Add hover effects
+                circle.addEventListener('mouseenter', (e) => {
+                    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    tooltip.innerHTML = `${monthNames[d.month-1]} ${d.year}: ${d.co2.toFixed(2)} ppm`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = (e.pageX + 10) + 'px';
+                    tooltip.style.top = (e.pageY - 10) + 'px';
                 });
                 
-                chart.update();
+                circle.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+                
+                svg.appendChild(circle);
+            });
+            
+            // Add axes with thicker, bolder lines
+            // X-axis
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', margin.left);
+            xAxis.setAttribute('y1', margin.top + height);
+            xAxis.setAttribute('x2', margin.left + width);
+            xAxis.setAttribute('y2', margin.top + height);
+            xAxis.setAttribute('stroke', '#333');
+            xAxis.setAttribute('stroke-width', '3');
+            svg.appendChild(xAxis);
+            
+            // Y-axis
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', margin.left);
+            yAxis.setAttribute('y1', margin.top);
+            yAxis.setAttribute('x2', margin.left);
+            yAxis.setAttribute('y2', margin.top + height);
+            yAxis.setAttribute('stroke', '#333');
+            yAxis.setAttribute('stroke-width', '3');
+            svg.appendChild(yAxis);
+            
+            // X-axis labels (every 5 years from 1955 to 2025)
+            for (let year = 1955; year <= 2025; year += 5) {
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', xScale(year));
+                text.setAttribute('y', margin.top + height + 25);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = year;
+                svg.appendChild(text);
             }
+            
+            // Y-axis labels (every 20 ppm)
+            for (let co2 = 320; co2 <= 440; co2 += 20) {
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', margin.left - 15);
+                text.setAttribute('y', yScale(co2) + 6);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = co2;
+                svg.appendChild(text);
+            }
+            
+            // Axis titles with improved positioning
+            const xTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            xTitle.setAttribute('x', margin.left + width/2);
+            xTitle.setAttribute('y', margin.top + height + 60);
+            xTitle.setAttribute('text-anchor', 'middle');
+            xTitle.setAttribute('class', 'axis-title');
+            xTitle.textContent = 'Year';
+            svg.appendChild(xTitle);
+            
+            const yTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yTitle.setAttribute('x', 30);
+            yTitle.setAttribute('y', margin.top + height/2);
+            yTitle.setAttribute('text-anchor', 'middle');
+            yTitle.setAttribute('class', 'axis-title');
+            yTitle.setAttribute('transform', `rotate(-90, 30, ${margin.top + height/2})`);
+            yTitle.textContent = 'CO₂ Concentration (ppm)';
+            svg.appendChild(yTitle);
+        }
+
+        function addBirthMarker() {
+            if (!userBirthYear || !userBirthMonth || !userBirthCO2) return;
+            
+            const svg = document.getElementById('co2Chart');
+            const margin = {top: 20, right: 30, bottom: 80, left: 100};
+            const width = 800 - margin.left - margin.right;
+            const height = 400 - margin.top - margin.bottom;
+            
+            // Calculate scales (same as in createScatterPlot) - updated range
+            const xMin = 1955;
+            const xMax = 2025;
+            const yMin = Math.min(...Object.values(co2Data).flat()) - 5;
+            const yMax = Math.max(...Object.values(co2Data).flat()) + 5;
+            
+            const xScale = (x) => margin.left + ((x - xMin) / (xMax - xMin)) * width;
+            const yScale = (y) => height + margin.top - ((y - yMin) / (yMax - yMin)) * height;
+            
+            // Remove existing birth marker
+            const existingMarker = svg.querySelector('.birth-marker');
+            if (existingMarker) existingMarker.remove();
+            
+            // Add birth marker
+            const birthX = userBirthYear + (userBirthMonth - 1) / 12;
+            const marker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            marker.setAttribute('cx', xScale(birthX));
+            marker.setAttribute('cy', yScale(userBirthCO2));
+            marker.setAttribute('r', '8');
+            marker.setAttribute('class', 'birth-marker');
+            
+            const tooltip = document.getElementById('tooltip');
+            marker.addEventListener('mouseenter', (e) => {
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                tooltip.innerHTML = `Your Birth: ${monthNames[userBirthMonth-1]} ${userBirthYear}: ${userBirthCO2.toFixed(2)} ppm`;
+                tooltip.style.display = 'block';
+                tooltip.style.left = (e.pageX + 10) + 'px';
+                tooltip.style.top = (e.pageY - 10) + 'px';
+            });
+            
+            marker.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+            
+            svg.appendChild(marker);
         }
 
         function calculateCO2Journey() {
@@ -626,8 +820,8 @@
                 birthYear = parseInt(birthYearValue);
             }
             
-            const birthCO2 = getCO2ForDate(birthYear, birthMonth);
-            const currentCO2 = getCO2ForDate(2025, 8); // August 2025
+            const birthCO2 = co2Data[birthYear][birthMonth - 1];
+            const currentCO2 = co2Data[2025][6]; // July 2025 (index 6)
             const increase = ((currentCO2 - birthCO2) / birthCO2 * 100);
             const totalIncrease = currentCO2 - birthCO2;
             
@@ -656,16 +850,20 @@
             
             // Show results
             document.getElementById('results').style.display = 'block';
-            document.getElementById('chartContainer').style.display = 'block';
             
-            // Create the chart
-            createChart();
+            // Add birth marker to the chart
+            addBirthMarker();
             
             // Scroll to results
             document.getElementById('results').scrollIntoView({ 
                 behavior: 'smooth' 
             });
         }
+
+        // Initialize scatter plot on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createScatterPlot();
+        });
 
         // Set default values
         document.getElementById('birthYear').value = '1990';
