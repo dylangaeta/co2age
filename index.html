@@ -93,8 +93,8 @@
         }
 
         .birth-marker {
-            fill: #10b981;
-            stroke: #059669;
+            fill: #2563eb;
+            stroke: #1d4ed8;
             stroke-width: 3;
         }
 
@@ -189,9 +189,29 @@
             box-shadow: 0 4px 15px rgba(222, 45, 38, 0.3);
         }
 
-        .calculate-btn:hover {
+        .download-btn {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+            margin-top: 1rem;
+        }
+
+        .download-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(222, 45, 38, 0.4);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+        }
+
+        .download-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .results {
@@ -554,6 +574,13 @@
                     <div class="stat-value" id="increasePercentDisplay">-</div>
                     <div class="stat-label">Percent Increase (%)</div>
                 </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="download-btn" onclick="downloadCO2AgeImage()" id="downloadBtn">
+                    📱 Download & Share Your CO<sub>2</sub> Age
+                </button>
+                <p style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">Share on social media and ask friends about their CO<sub>2</sub> age!</p>
             </div>
         </div>
 
@@ -953,20 +980,129 @@
             const xScale = (x) => margin.left + ((x - xMin) / (xMax - xMin)) * width;
             const yScale = (y) => height + margin.top - ((y - yMin) / (yMax - yMin)) * height;
             
-            // Remove existing birth marker
+            // Remove existing birth marker and increase line
             const existingMarker = svg.querySelector('.birth-marker');
             if (existingMarker) existingMarker.remove();
+            const existingIncreaseLine = svg.querySelector('.increase-line');
+            if (existingIncreaseLine) existingIncreaseLine.remove();
+            const existingIncreaseLabel = svg.querySelector('.increase-label');
+            if (existingIncreaseLabel) existingIncreaseLabel.remove();
             
-            // Add birth marker
+            // Add CO2 increase visualization FIRST (so it appears behind other elements)
+            const currentCO2 = co2Data[2025][6]; // July 2025
+            const totalIncrease = currentCO2 - userBirthCO2;
+            const percentIncrease = ((currentCO2 - userBirthCO2) / userBirthCO2 * 100);
+            
+            // Calculate line position (no vertical offset, same CO2 levels as actual data)
             const birthX = userBirthYear + (userBirthMonth - 1) / 12;
-            const marker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            marker.setAttribute('cx', xScale(birthX));
-            marker.setAttribute('cy', yScale(userBirthCO2));
-            marker.setAttribute('r', '8');
-            marker.setAttribute('class', 'birth-marker');
+            const lineX = xScale(birthX); // Same X position as birth marker
+            const lineStartY = yScale(userBirthCO2); // Start at birth CO2 level
+            const lineEndY = yScale(currentCO2); // End at current CO2 level
+            
+            // Create vertical line showing increase
+            const increaseLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            increaseLine.setAttribute('x1', lineX);
+            increaseLine.setAttribute('y1', lineStartY);
+            increaseLine.setAttribute('x2', lineX);
+            increaseLine.setAttribute('y2', lineEndY);
+            increaseLine.setAttribute('stroke', '#f59e0b');
+            increaseLine.setAttribute('stroke-width', '6');
+            increaseLine.setAttribute('stroke-dasharray', '8,4');
+            increaseLine.setAttribute('class', 'increase-line');
+            increaseLine.setAttribute('opacity', '0.8');
+            svg.appendChild(increaseLine);
+            
+            // Add arrowheads to the line
+            const arrowTop = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            arrowTop.setAttribute('points', `${lineX-8},${lineStartY+12} ${lineX},${lineStartY} ${lineX+8},${lineStartY+12}`);
+            arrowTop.setAttribute('fill', '#f59e0b');
+            arrowTop.setAttribute('class', 'increase-line');
+            arrowTop.setAttribute('opacity', '0.8');
+            svg.appendChild(arrowTop);
+            
+            const arrowBottom = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            arrowBottom.setAttribute('points', `${lineX-8},${lineEndY-12} ${lineX},${lineEndY} ${lineX+8},${lineEndY-12}`);
+            arrowBottom.setAttribute('fill', '#f59e0b');
+            arrowBottom.setAttribute('class', 'increase-line');
+            arrowBottom.setAttribute('opacity', '0.8');
+            svg.appendChild(arrowBottom);
+            
+            // Add label showing the increase (positioned to the left)
+            const labelY = lineStartY + (lineEndY - lineStartY) / 2;
+            const labelX = lineX - 160; // Position to the left of the line
+            
+            // Create background for label
+            const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            labelBg.setAttribute('x', labelX - 5);
+            labelBg.setAttribute('y', labelY - 25);
+            labelBg.setAttribute('width', '140');
+            labelBg.setAttribute('height', '50');
+            labelBg.setAttribute('fill', 'rgba(245, 158, 11, 0.9)');
+            labelBg.setAttribute('stroke', '#f59e0b');
+            labelBg.setAttribute('stroke-width', '2');
+            labelBg.setAttribute('rx', '8');
+            labelBg.setAttribute('class', 'increase-label');
+            svg.appendChild(labelBg);
+            
+            // Add increase text
+            const increaseText1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            increaseText1.setAttribute('x', labelX + 70);
+            increaseText1.setAttribute('y', labelY - 8);
+            increaseText1.setAttribute('text-anchor', 'middle');
+            increaseText1.setAttribute('class', 'increase-label');
+            increaseText1.setAttribute('fill', 'white');
+            increaseText1.setAttribute('font-size', '14');
+            increaseText1.setAttribute('font-weight', 'bold');
+            increaseText1.setAttribute('font-family', 'Segoe UI, sans-serif');
+            increaseText1.textContent = `+${totalIncrease.toFixed(1)} ppm`;
+            svg.appendChild(increaseText1);
+            
+            const increaseText2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            increaseText2.setAttribute('x', labelX + 70);
+            increaseText2.setAttribute('y', labelY + 8);
+            increaseText2.setAttribute('text-anchor', 'middle');
+            increaseText2.setAttribute('class', 'increase-label');
+            increaseText2.setAttribute('fill', 'white');
+            increaseText2.setAttribute('font-size', '12');
+            increaseText2.setAttribute('font-weight', 'bold');
+            increaseText2.setAttribute('font-family', 'Segoe UI, sans-serif');
+            increaseText2.textContent = `(+${percentIncrease.toFixed(1)}%)`;
+            svg.appendChild(increaseText2);
+            
+            // Add hover interaction to the label
+            [labelBg, increaseText1, increaseText2].forEach(element => {
+                element.addEventListener('mouseenter', (e) => {
+                    tooltip.innerHTML = `CO₂ increase during your lifetime:<br>+${totalIncrease.toFixed(1)} ppm (+${percentIncrease.toFixed(1)}%)`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = (e.pageX + 10) + 'px';
+                    tooltip.style.top = (e.pageY - 10) + 'px';
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+            });
+            
+            // Add birth marker as blue star AFTER the orange line (so it appears on top)
+            const starSize = 12;
+            const starCx = xScale(birthX);
+            const starCy = yScale(userBirthCO2);
+            
+            // Create star shape
+            const star = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            const starPoints = [];
+            for (let i = 0; i < 10; i++) {
+                const angle = (i * Math.PI) / 5;
+                const radius = i % 2 === 0 ? starSize : starSize * 0.4;
+                const x = starCx + radius * Math.cos(angle - Math.PI / 2);
+                const y = starCy + radius * Math.sin(angle - Math.PI / 2);
+                starPoints.push(`${x},${y}`);
+            }
+            star.setAttribute('points', starPoints.join(' '));
+            star.setAttribute('class', 'birth-marker');
             
             const tooltip = document.getElementById('tooltip');
-            marker.addEventListener('mouseenter', (e) => {
+            star.addEventListener('mouseenter', (e) => {
                 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 tooltip.innerHTML = `Your Birth: ${monthNames[userBirthMonth-1]} ${userBirthYear}: ${userBirthCO2.toFixed(2)} ppm`;
@@ -975,11 +1111,11 @@
                 tooltip.style.top = (e.pageY - 10) + 'px';
             });
             
-            marker.addEventListener('mouseleave', () => {
+            star.addEventListener('mouseleave', () => {
                 tooltip.style.display = 'none';
             });
             
-            svg.appendChild(marker);
+            svg.appendChild(star);
         }
 
         function calculateCO2Age() {
@@ -1054,6 +1190,346 @@
 
         // Make function globally available
         window.calculateCO2Age = calculateCO2Age;
+        
+        // Download CO2 Age Image Function
+        async function downloadCO2AgeImage() {
+            const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.disabled = true;
+            downloadBtn.textContent = 'Creating image...';
+            
+            try {
+                // Import html2canvas dynamically
+                if (!window.html2canvas) {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                    await new Promise((resolve, reject) => {
+                        script.onload = resolve;
+                        script.onerror = reject;
+                        document.head.appendChild(script);
+                    });
+                }
+
+                // Create a container with the elements we want to capture
+                const container = document.createElement('div');
+                container.style.width = '1080px';
+                container.style.background = 'linear-gradient(90deg, #08306b 0%, #2171b5 10%, #4292c6 20%, #6baed6 30%, #9ecae1 40%, #c6dbef 50%, #deebf7 60%, #fee0d2 70%, #fcbba1 80%, #fc9272 90%, #fb6a4a 95%, #de2d26 100%)';
+                container.style.padding = '40px';
+                container.style.fontFamily = '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+                container.style.position = 'absolute';
+                container.style.left = '-9999px';
+                container.style.top = '0';
+                
+                // Add title
+                const title = document.createElement('div');
+                title.innerHTML = '<h1 style="color: white; font-size: 3rem; text-align: center; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">My CO<sub>2</sub> Age</h1>';
+                container.appendChild(title);
+                
+                const subtitle = document.createElement('div');
+                subtitle.innerHTML = '<p style="color: white; font-size: 1.2rem; text-align: center; margin-bottom: 2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">How much atmospheric CO<sub>2</sub> has increased during my lifetime</p>';
+                container.appendChild(subtitle);
+                
+                // Clone and add the CO2 age banner
+                const co2Banner = document.getElementById('co2AgeBanner');
+                if (co2Banner && co2Banner.style.display !== 'none') {
+                    const bannerClone = co2Banner.cloneNode(true);
+                    bannerClone.style.marginBottom = '2rem';
+                    // Ensure gradient is preserved
+                    bannerClone.style.background = 'linear-gradient(135deg, #0c2340 0%, #1a365d 25%, #2d5a87 50%, #4facfe 75%, #00f2fe 100%)';
+                    container.appendChild(bannerClone);
+                }
+                
+                // Clone and add the ice core banner if visible
+                const iceCoreBanner = document.getElementById('iceCoreBanner');
+                if (iceCoreBanner && iceCoreBanner.style.display !== 'none') {
+                    const iceBannerClone = iceCoreBanner.cloneNode(true);
+                    iceBannerClone.style.marginBottom = '1.5rem';
+                    // Ensure gradient is preserved
+                    iceBannerClone.style.background = 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)';
+                    container.appendChild(iceBannerClone);
+                }
+                
+                // Clone and add the stats grids with proper gradients
+                const statsGrid = document.querySelector('.stats-grid');
+                if (statsGrid) {
+                    const statsClone = statsGrid.cloneNode(true);
+                    // Fix gradients for stat cards
+                    const statCards = statsClone.querySelectorAll('.stat-card');
+                    statCards.forEach(card => {
+                        if (card.classList.contains('birth-co2')) {
+                            card.style.background = 'linear-gradient(135deg, #0c2340 0%, #1a365d 25%, #2d5a87 50%, #4facfe 75%, #00f2fe 100%)';
+                        } else if (card.classList.contains('current-co2')) {
+                            card.style.background = 'linear-gradient(135deg, #4a0e0e 0%, #7f1d1d 25%, #b91c1c 50%, #ff6b6b 75%, #ee5a52 100%)';
+                        }
+                    });
+                    container.appendChild(statsClone);
+                }
+                
+                const statsGrid2 = document.querySelector('.stats-grid-second');
+                if (statsGrid2) {
+                    const stats2Clone = statsGrid2.cloneNode(true);
+                    stats2Clone.style.marginBottom = '2rem';
+                    // Fix gradients for stat cards
+                    const statCards2 = stats2Clone.querySelectorAll('.stat-card');
+                    statCards2.forEach(card => {
+                        if (card.classList.contains('total-increase')) {
+                            card.style.background = 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 20%, #bae6fd 40%, #7dd3fc 60%, #38bdf8 80%, #0ea5e9 100%)';
+                        } else if (card.classList.contains('increase-percent')) {
+                            card.style.background = 'linear-gradient(135deg, #fef2f2 0%, #fecaca 20%, #fca5a5 40%, #f87171 60%, #ef4444 80%, #dc2626 100%)';
+                        }
+                    });
+                    container.appendChild(stats2Clone);
+                }
+                
+                // Clone and add the chart with wider dimensions
+                const chartContainer = document.querySelector('.chart-container');
+                if (chartContainer) {
+                    const chartClone = chartContainer.cloneNode(true);
+                    chartClone.style.marginBottom = '2rem';
+                    // Make chart wider by reducing padding and increasing scale
+                    chartClone.style.padding = '1rem';
+                    chartClone.style.transform = 'scale(1.1)';
+                    chartClone.style.transformOrigin = 'center top';
+                    // Reduce margins to fill more space
+                    chartClone.style.margin = '0 -50px';
+                    container.appendChild(chartClone);
+                }
+                
+                // Add footer with website link
+                const footer = document.createElement('div');
+                footer.innerHTML = `
+                    <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 20px; text-align: center; margin-top: 2rem;">
+                        <p style="color: #333; font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 600;">What's your CO<sub>2</sub> age?</p>
+                        <p style="color: #de2d26; font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem;">https://www.yourco2age.com/</p>
+                        <p style="color: #666; font-size: 1rem; margin-bottom: 0.5rem;">Share with friends and family!</p>
+                        <p style="color: #666; font-size: 0.9rem;">#CO2Age #ClimateChange #KeelingCurve</p>
+                    </div>
+                `;
+                container.appendChild(footer);
+                
+                // Add to document temporarily
+                document.body.appendChild(container);
+                
+                // Capture the container
+                const canvas = await html2canvas(container, {
+                    width: 1080,
+                    height: container.offsetHeight,
+                    scale: 1,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null
+                });
+                
+                // Remove temporary container
+                document.body.removeChild(container);
+                
+                // Download the image
+                canvas.toBlob(function(blob) {
+                    const co2AgeValue = document.getElementById('co2AgeValue').textContent;
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `my-co2-age-${co2AgeValue.replace('+', '').replace(' ppm', 'ppm').replace('.', '-')}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    downloadBtn.disabled = false;
+                    downloadBtn.innerHTML = '📱 Download & Share Your CO<sub>2</sub> Age';
+                }, 'image/png');
+                
+            } catch (error) {
+                console.error('Error creating image:', error);
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = '📱 Download & Share Your CO<sub>2</sub> Age';
+                alert('Sorry, there was an error creating the image. Please try again.');
+            }
+        }nerClone = iceCoreBanner.cloneNode(true);
+                    iceBannerClone.style.marginBottom = '1.5rem';
+                    // Ensure gradient is preserved
+                    iceBannerClone.style.background = 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)';
+                    container.appendChild(iceBannerClone);
+                }
+                
+                // Clone and add the stats grids with proper gradients
+                const statsGrid = document.querySelector('.stats-grid');
+                if (statsGrid) {
+                    const statsClone = statsGrid.cloneNode(true);
+                    // Fix gradients for stat cards
+                    const statCards = statsClone.querySelectorAll('.stat-card');
+                    statCards.forEach(card => {
+                        if (card.classList.contains('birth-co2')) {
+                            card.style.background = 'linear-gradient(135deg, #0c2340 0%, #1a365d 25%, #2d5a87 50%, #4facfe 75%, #00f2fe 100%)';
+                        } else if (card.classList.contains('current-co2')) {
+                            card.style.background = 'linear-gradient(135deg, #4a0e0e 0%, #7f1d1d 25%, #b91c1c 50%, #ff6b6b 75%, #ee5a52 100%)';
+                        }
+                    });
+                    container.appendChild(statsClone);
+                }
+                
+                const statsGrid2 = document.querySelector('.stats-grid-second');
+                if (statsGrid2) {
+                    const stats2Clone = statsGrid2.cloneNode(true);
+                    stats2Clone.style.marginBottom = '2rem';
+                    // Fix gradients for stat cards
+                    const statCards2 = stats2Clone.querySelectorAll('.stat-card');
+                    statCards2.forEach(card => {
+                        if (card.classList.contains('total-increase')) {
+                            card.style.background = 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 20%, #bae6fd 40%, #7dd3fc 60%, #38bdf8 80%, #0ea5e9 100%)';
+                        } else if (card.classList.contains('increase-percent')) {
+                            card.style.background = 'linear-gradient(135deg, #fef2f2 0%, #fecaca 20%, #fca5a5 40%, #f87171 60%, #ef4444 80%, #dc2626 100%)';
+                        }
+                    });
+                    container.appendChild(stats2Clone);
+                }
+                
+                // Clone and add the chart with wider dimensions
+                const chartContainer = document.querySelector('.chart-container');
+                if (chartContainer) {
+                    const chartClone = chartContainer.cloneNode(true);
+                    chartClone.style.marginBottom = '2rem';
+                    // Make chart wider by reducing padding and increasing scale
+                    chartClone.style.padding = '1rem';
+                    chartClone.style.transform = 'scale(1.1)';
+                    chartClone.style.transformOrigin = 'center top';
+                    // Reduce margins to fill more space
+                    chartClone.style.margin = '0 -50px';
+                    container.appendChild(chartClone);
+                }
+                
+                // Add footer with website link
+                const footer = document.createElement('div');
+                footer.innerHTML = `
+                    <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 20px; text-align: center; margin-top: 2rem;">
+                        <p style="color: #333; font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 600;">What's your CO<sub>2</sub> age?</p>
+                        <p style="color: #de2d26; font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem;">https://www.yourco2age.com/</p>
+                        <p style="color: #666; font-size: 1rem; margin-bottom: 0.5rem;">Share with friends and family!</p>
+                        <p style="color: #666; font-size: 0.9rem;">#CO2Age #ClimateChange #KeelingCurve</p>
+                    </div>
+                `;
+                container.appendChild(footer);
+                
+                // Add to document temporarily
+                document.body.appendChild(container);
+                
+                // Capture the container
+                const canvas = await html2canvas(container, {
+                    width: 1080,
+                    height: container.offsetHeight,
+                    scale: 1,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null
+                });
+                
+                // Remove temporary container
+                document.body.removeChild(container);
+                
+                // Download the image
+                canvas.toBlob(function(blob) {
+                    const co2AgeValue = document.getElementById('co2AgeValue').textContent;
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `my-co2-age-${co2AgeValue.replace('+', '').replace(' ppm', 'ppm').replace('.', '-')}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    downloadBtn.disabled = false;
+                    downloadBtn.innerHTML = '📱 Download & Share Your CO<sub>2</sub> Age';
+                }, 'image/png');
+                
+            } catch (error) {
+                console.error('Error creating image:', error);
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = '📱 Download & Share Your CO<sub>2</sub> Age';
+                alert('Sorry, there was an error creating the image. Please try again.');
+            }
+        }nerClone = iceCoreBanner.cloneNode(true);
+                    iceBannerClone.style.marginBottom = '1.5rem';
+                    container.appendChild(iceBannerClone);
+                }
+                
+                // Clone and add the stats grids
+                const statsGrid = document.querySelector('.stats-grid');
+                if (statsGrid) {
+                    const statsClone = statsGrid.cloneNode(true);
+                    container.appendChild(statsClone);
+                }
+                
+                const statsGrid2 = document.querySelector('.stats-grid-second');
+                if (statsGrid2) {
+                    const stats2Clone = statsGrid2.cloneNode(true);
+                    stats2Clone.style.marginBottom = '2rem';
+                    container.appendChild(stats2Clone);
+                }
+                
+                // Clone and add the chart
+                const chartContainer = document.querySelector('.chart-container');
+                if (chartContainer) {
+                    const chartClone = chartContainer.cloneNode(true);
+                    chartClone.style.marginBottom = '2rem';
+                    // Scale down the chart slightly for mobile
+                    chartClone.style.transform = 'scale(0.9)';
+                    chartClone.style.transformOrigin = 'center top';
+                    container.appendChild(chartClone);
+                }
+                
+                // Add footer
+                const footer = document.createElement('div');
+                footer.innerHTML = `
+                    <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 20px; text-align: center; margin-top: 2rem;">
+                        <p style="color: #333; font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 600;">What's your CO<sub>2</sub> age?</p>
+                        <p style="color: #666; font-size: 1rem; margin-bottom: 1rem;">Find out and share with friends!</p>
+                        <p style="color: #de2d26; font-size: 1.1rem; font-weight: bold;">#CO2Age #ClimateChange</p>
+                    </div>
+                `;
+                container.appendChild(footer);
+                
+                // Add to document temporarily
+                document.body.appendChild(container);
+                
+                // Capture the container
+                const canvas = await html2canvas(container, {
+                    width: 1080,
+                    height: container.offsetHeight,
+                    scale: 1,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null
+                });
+                
+                // Remove temporary container
+                document.body.removeChild(container);
+                
+                // Download the image
+                canvas.toBlob(function(blob) {
+                    const co2AgeValue = document.getElementById('co2AgeValue').textContent;
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `my-co2-age-${co2AgeValue.replace('+', '').replace(' ppm', 'ppm').replace('.', '-')}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    downloadBtn.disabled = false;
+                    downloadBtn.innerHTML = '📱 Download & Share Your CO<sub>2</sub> Age';
+                }, 'image/png');
+                
+            } catch (error) {
+                console.error('Error creating image:', error);
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = '📱 Download & Share Your CO<sub>2</sub> Age';
+                alert('Sorry, there was an error creating the image. Please try again.');
+            }
+        }
+        
+        // Make download function globally available
+        window.downloadCO2AgeImage = downloadCO2AgeImage;
     </script>
 </body>
 </html>
