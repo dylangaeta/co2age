@@ -235,18 +235,6 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .unity-message {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%);
-            color: #1e293b;
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
         .stat-card {
             color: white;
             padding: 1.5rem;
@@ -529,7 +517,7 @@
                     </select>
                 </div>
             </div>
-            <button class="calculate-btn" onclick="calculateCO2Journey()">Calculate My CO<sub>2</sub> Age</button>
+            <button class="calculate-btn" onclick="calculateCO2Age()">Calculate My CO<sub>2</sub> Age</button>
         </div>
 
         <div class="results" id="results">
@@ -543,30 +531,29 @@
             
             <div class="co2-age-banner" id="co2AgeBanner" style="display: none;">
                 <div>Your CO<sub>2</sub> Age is:</div>
-                <div class="age-value" id="birthCO2">- ppm</div>
+                <div class="age-value" id="co2AgeValue">- ppm</div>
             </div>
             
             <div class="stats-grid">
                 <div class="stat-card birth-co2">
-                    <div class="stat-value" id="birthCO2">-</div>
+                    <div class="stat-value" id="birthCO2Display">-</div>
                     <div class="stat-label" id="birthLabel">CO<sub>2</sub> at Birth (ppm)</div>
                 </div>
                 <div class="stat-card current-co2">
-                    <div class="stat-value" id="currentCO2">-</div>
+                    <div class="stat-value" id="currentCO2Display">-</div>
                     <div class="stat-label">Current CO<sub>2</sub> (ppm)</div>
                 </div>
             </div>
 
             <div class="stats-grid-second">
                 <div class="stat-card total-increase">
-                    <div class="stat-value" id="totalIncrease">-</div>
+                    <div class="stat-value" id="totalIncreaseDisplay">-</div>
                     <div class="stat-label">Total CO<sub>2</sub> Increase (ppm)</div>
                 </div>
                 <div class="stat-card increase-percent">
-                    <div class="stat-value" id="increase">-</div>
+                    <div class="stat-value" id="increasePercentDisplay">-</div>
                     <div class="stat-label">Percent Increase (%)</div>
                 </div>
-               
             </div>
         </div>
 
@@ -581,12 +568,11 @@
             <h3>Understanding Your CO<sub>2</sub> Age</h3>
             <p>Your "CO<sub>2</sub> age" represents how much atmospheric carbon dioxide has increased during your lifetime. This metric helps put climate change into personal perspective by contextualizing the rapid global CO<sub>2</sub> increase that has occurred during your lifetime. </p>
                         
-            <p>When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub>, measured in parts per million (ppm). Since then, human activities - primarily fossil fuel burning - have added more and more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age represents the CO<sub>2</sub> concentration when you were born, providing a personal reference point to the global CO<sub>2</sub> increase you've witnessed in your lifetime. </p>
+            <p>When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub>, measured in parts per million (ppm). Since then, human activities - primarily fossil fuel burning - have added more and more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age represents the total increase in CO<sub>2</sub> concentration that has occurred during your lifetime, providing a personal reference point to the global CO<sub>2</sub> increase you've witnessed. </p>
             
             <p>This increase isn't just a number - it represents a fundamental shift in our planet's atmospheric composition that affects global temperatures, weather patterns, precipitation, global ecosystems, and even human health. By understanding your personal CO<sub>2</sub> age, you can better appreciate the scale and rate at which atmospheric CO<sub>2</sub> has increased in your few short years on Earth. </p>
 
-            <p><strong>🌍 </strong> CO<sub>2</sub> age is not a one-to-one function – you may share the same CO<sub>2</sub> age as someone born in a different year, uniting us across generations in our shared climate-CO<sub>2</sub> trajectory. Due to the seasonal fluctuations in atmospheric CO<sub>2</sub>, people born months or even years apart can have similar CO<sub>2</sub> ages.</p>
-
+            <p><strong>🌍 </strong> CO<sub>2</sub> age is not a one-to-one function — you may share the same CO<sub>2</sub> age as someone born in a different year, uniting us across generations in our shared climate-CO<sub>2</sub> trajectory. Due to the seasonal fluctuations in atmospheric CO<sub>2</sub>, people born months or even years apart can have similar CO<sub>2</sub> ages.</p>
         </div>
 
         <div class="seasonal-cycle">
@@ -694,7 +680,6 @@
             1957: [314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8],
             // Mauna Loa data (monthly measurements) 1958-2025
             1958: [315.71, 315.71, 315.71, 317.45, 317.51, 317.27, 315.87, 314.93, 313.21, 312.42, 313.33, 314.67],
-            1958: [315.71, 315.71, 315.71, 317.45, 317.51, 317.27, 315.87, 314.93, 313.21, 312.42, 313.33, 314.67],
             1959: [315.58, 316.49, 316.65, 317.72, 318.29, 318.15, 316.54, 314.80, 313.84, 313.33, 314.81, 315.58],
             1960: [316.43, 316.98, 317.58, 319.03, 320.03, 319.58, 318.18, 315.90, 314.17, 313.83, 315.00, 316.19],
             1961: [316.89, 317.70, 318.54, 319.48, 320.58, 319.77, 318.56, 316.79, 314.99, 315.31, 316.10, 317.01],
@@ -776,7 +761,7 @@
             // Clear existing content
             svg.innerHTML = '';
             
-            // SVG dimensions - increased height
+            // SVG dimensions
             const margin = {top: 20, right: 30, bottom: 80, left: 100};
             const width = 800 - margin.left - margin.right;
             const height = 700 - margin.top - margin.bottom;
@@ -791,9 +776,8 @@
                     if (year === 2025 && month > 7) break; // Only data through July 2025
                     
                     const co2Value = co2Data[year][month - 1];
-                    const date = new Date(year, month - 1, 1);
                     allData.push({
-                        date: date,
+                        date: new Date(year, month - 1, 1),
                         year: year,
                         month: month,
                         co2: co2Value,
@@ -802,7 +786,7 @@
                 }
             }
             
-            // Calculate scales - updated ranges
+            // Calculate scales
             const xMin = 1955;
             const xMax = 2030;
             const yMin = 275;
@@ -824,7 +808,6 @@
             svg.appendChild(rect);
             
             // Create grid lines
-            // Vertical grid lines (every 5 years from 1955 to 2030)
             for (let year = 1955; year <= 2030; year += 5) {
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('x1', xScale(year));
@@ -836,7 +819,6 @@
                 svg.appendChild(line);
             }
             
-            // Horizontal grid lines (every 20 ppm from 280 to 440)
             for (let co2 = 280; co2 <= 440; co2 += 20) {
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('x1', margin.left);
@@ -870,7 +852,7 @@
             svg.appendChild(preIndustrialLabel);
             
             // Plot data points
-            allData.forEach((d, i) => {
+            allData.forEach((d) => {
                 const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('cx', xScale(d.x));
                 circle.setAttribute('cy', yScale(d.co2));
@@ -894,8 +876,7 @@
                 svg.appendChild(circle);
             });
             
-            // Add axes with thicker, bolder lines
-            // X-axis
+            // Add axes
             const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             xAxis.setAttribute('x1', margin.left);
             xAxis.setAttribute('y1', margin.top + height);
@@ -905,7 +886,6 @@
             xAxis.setAttribute('stroke-width', '3');
             svg.appendChild(xAxis);
             
-            // Y-axis
             const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             yAxis.setAttribute('x1', margin.left);
             yAxis.setAttribute('y1', margin.top);
@@ -915,7 +895,7 @@
             yAxis.setAttribute('stroke-width', '3');
             svg.appendChild(yAxis);
             
-            // X-axis labels (every 5 years from 1955 to 2030)
+            // X-axis labels
             for (let year = 1955; year <= 2030; year += 5) {
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 text.setAttribute('x', xScale(year));
@@ -926,7 +906,7 @@
                 svg.appendChild(text);
             }
             
-            // Y-axis labels (every 20 ppm from 280 to 440)
+            // Y-axis labels
             for (let co2 = 280; co2 <= 440; co2 += 20) {
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 text.setAttribute('x', margin.left - 15);
@@ -937,7 +917,7 @@
                 svg.appendChild(text);
             }
             
-            // Axis titles with improved positioning
+            // Axis titles
             const xTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             xTitle.setAttribute('x', margin.left + width/2);
             xTitle.setAttribute('y', margin.top + height + 60);
@@ -964,7 +944,7 @@
             const width = 800 - margin.left - margin.right;
             const height = 700 - margin.top - margin.bottom;
             
-            // Calculate scales (same as in createScatterPlot) - updated range
+            // Calculate scales
             const xMin = 1955;
             const xMax = 2030;
             const yMin = 275;
@@ -1002,61 +982,46 @@
             svg.appendChild(marker);
         }
 
-        function calculateCO2Journey() {
-            const birthYearValue = document.getElementById('birthYear').value;
+        function calculateCO2Age() {
+            const birthYear = parseInt(document.getElementById('birthYear').value);
             const birthMonth = parseInt(document.getElementById('birthMonth').value);
             
-            let birthYear, isBeforeRecords = false, isIceCoreData = false;
-            
-            if (birthYearValue === 'before1900') {
-                birthYear = 1900;
-                isBeforeRecords = true;
-            } else if (birthYearValue === 'before1958') {
-                birthYear = 1958;
-                isBeforeRecords = true;
-            } else {
-                birthYear = parseInt(birthYearValue);
-                if (birthYear >= 1900 && birthYear <= 1957) {
-                    isIceCoreData = true;
-                }
-            }
-            
+            // Get CO2 values
             const birthCO2 = co2Data[birthYear][birthMonth - 1];
             const currentCO2 = co2Data[2025][6]; // July 2025 (index 6)
-            const increase = ((currentCO2 - birthCO2) / birthCO2 * 100);
             const totalIncrease = currentCO2 - birthCO2;
+            const percentIncrease = ((currentCO2 - birthCO2) / birthCO2 * 100);
             
-            // Show/hide special notes
+            // Determine data source and show appropriate banners
             const specialNote = document.getElementById('specialNote');
             const iceCoreBanner = document.getElementById('iceCoreBanner');
             const birthLabel = document.getElementById('birthLabel');
             
-            if (isBeforeRecords && birthYear === 1900) {
-                specialNote.style.display = 'block';
-                iceCoreBanner.style.display = 'block';
-                birthLabel.innerHTML = 'Earliest Ice Core Record (1900)';
-            } else if (isBeforeRecords && birthYear === 1958) {
-                specialNote.style.display = 'block';
-                iceCoreBanner.style.display = 'none';
-                birthLabel.innerHTML = 'Earliest Mauna Loa Record (1958)';
-            } else if (isIceCoreData) {
+            if (birthYear >= 1900 && birthYear <= 1957) {
+                // Ice core data
                 specialNote.style.display = 'none';
                 iceCoreBanner.style.display = 'block';
                 birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm) - Ice Core Data';
+            } else if (birthYear < 1900) {
+                // Before available records
+                specialNote.style.display = 'block';
+                iceCoreBanner.style.display = 'block';
+                birthLabel.innerHTML = 'Earliest Available Record (1900)';
             } else {
+                // Mauna Loa data (1958 onwards)
                 specialNote.style.display = 'none';
                 iceCoreBanner.style.display = 'none';
                 birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm)';
             }
             
-            // Update statistics
-            document.getElementById('birthCO2').textContent = birthCO2.toFixed(1);
-            document.getElementById('currentCO2').textContent = currentCO2.toFixed(1);
-            document.getElementById('increase').textContent = '+' + increase.toFixed(1) + '%';
-            document.getElementById('totalIncrease').textContent = '+' + totalIncrease.toFixed(1);
+            // Update all display elements
+            document.getElementById('birthCO2Display').textContent = birthCO2.toFixed(1);
+            document.getElementById('currentCO2Display').textContent = currentCO2.toFixed(1);
+            document.getElementById('totalIncreaseDisplay').textContent = '+' + totalIncrease.toFixed(1);
+            document.getElementById('increasePercentDisplay').textContent = '+' + percentIncrease.toFixed(1) + '%';
             
-            // Update CO2 Age Banner
-            document.getElementById('co2AgeValue').textContent = birthCO2.toFixed(1) + ' ppm';
+            // Update CO2 Age Banner - this should show the total increase, not birth CO2
+            document.getElementById('co2AgeValue').textContent = '+' + totalIncrease.toFixed(1) + ' ppm';
             document.getElementById('co2AgeBanner').style.display = 'block';
             
             // Store user data for chart
@@ -1067,7 +1032,7 @@
             // Show results
             document.getElementById('results').style.display = 'block';
             
-            // Add birth marker to the chart
+            // Add birth marker to chart
             addBirthMarker();
             
             // Scroll to results
@@ -1080,10 +1045,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             createScatterPlot();
         });
-
-        // Set default values
-        document.getElementById('birthYear').value = '1993';
-        document.getElementById('birthMonth').value = '11';
     </script>
 </body>
 </html>
