@@ -55,12 +55,12 @@
             padding: 2rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
-            min-height: 500px;
+            min-height: 700px;
         }
 
         .chart-container svg {
             width: 100%;
-            height: 400px;
+            height: 700px;
             border: 1px solid #e0e0e0;
             border-radius: 10px;
         }
@@ -206,9 +206,45 @@
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(2, 1fr);
             gap: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-grid-second {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .co2-age-banner {
+            background: linear-gradient(135deg, #0c2340 0%, #1a365d 25%, #2d5a87 50%, #4facfe 75%, #00f2fe 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.5);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .co2-age-banner .age-value {
+            font-size: 3rem;
+            margin: 0.5rem 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .unity-message {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%);
+            color: #1e293b;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .stat-card {
@@ -230,15 +266,16 @@
         }
 
         .stat-card.increase-percent {
-            background: linear-gradient(135deg, #1e1b4b 0%, #3c1a78 25%, #5b21b6 50%, #667eea 75%, #764ba2 100%);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 20%, #fca5a5 40%, #f87171 60%, #ef4444 80%, #dc2626 100%);
+            color: #7f1d1d;
+            box-shadow: 0 8px 25px rgba(248, 113, 113, 0.3);
+            font-weight: 700;
         }
 
         .stat-card.total-increase {
-            background: linear-gradient(135deg, #0c4a6e 0%, #0f4c75 25%, #0891b2 50%, #a8edea 75%, #fed6e3 100%);
-            color: #1e293b;
-            box-shadow: 0 8px 25px rgba(168, 237, 234, 0.5);
-            font-weight: 700;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 20%, #bae6fd 40%, #7dd3fc 60%, #38bdf8 80%, #0ea5e9 100%);
+            color: #0c4a6e;
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
         }
 
         .stat-value {
@@ -324,8 +361,11 @@
             }
             
             .stats-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(4, 1fr);
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .stats-grid-second {
+                grid-template-columns: repeat(1, 1fr);
             }
         }
     </style>
@@ -360,6 +400,65 @@
                 <div class="input-field">
                     <label for="birthYear">Birth Year</label>
                     <select id="birthYear">
+                        <option value="before1900">Before 1900</option>
+                        <option value="1900">1900</option>
+                        <option value="1901">1901</option>
+                        <option value="1902">1902</option>
+                        <option value="1903">1903</option>
+                        <option value="1904">1904</option>
+                        <option value="1905">1905</option>
+                        <option value="1906">1906</option>
+                        <option value="1907">1907</option>
+                        <option value="1908">1908</option>
+                        <option value="1909">1909</option>
+                        <option value="1910">1910</option>
+                        <option value="1911">1911</option>
+                        <option value="1912">1912</option>
+                        <option value="1913">1913</option>
+                        <option value="1914">1914</option>
+                        <option value="1915">1915</option>
+                        <option value="1916">1916</option>
+                        <option value="1917">1917</option>
+                        <option value="1918">1918</option>
+                        <option value="1919">1919</option>
+                        <option value="1920">1920</option>
+                        <option value="1921">1921</option>
+                        <option value="1922">1922</option>
+                        <option value="1923">1923</option>
+                        <option value="1924">1924</option>
+                        <option value="1925">1925</option>
+                        <option value="1926">1926</option>
+                        <option value="1927">1927</option>
+                        <option value="1928">1928</option>
+                        <option value="1929">1929</option>
+                        <option value="1930">1930</option>
+                        <option value="1931">1931</option>
+                        <option value="1932">1932</option>
+                        <option value="1933">1933</option>
+                        <option value="1934">1934</option>
+                        <option value="1935">1935</option>
+                        <option value="1936">1936</option>
+                        <option value="1937">1937</option>
+                        <option value="1938">1938</option>
+                        <option value="1939">1939</option>
+                        <option value="1940">1940</option>
+                        <option value="1941">1941</option>
+                        <option value="1942">1942</option>
+                        <option value="1943">1943</option>
+                        <option value="1944">1944</option>
+                        <option value="1945">1945</option>
+                        <option value="1946">1946</option>
+                        <option value="1947">1947</option>
+                        <option value="1948">1948</option>
+                        <option value="1949">1949</option>
+                        <option value="1950">1950</option>
+                        <option value="1951">1951</option>
+                        <option value="1952">1952</option>
+                        <option value="1953">1953</option>
+                        <option value="1954">1954</option>
+                        <option value="1955">1955</option>
+                        <option value="1956">1956</option>
+                        <option value="1957">1957</option>
                         <option value="before1958">Before 1958</option>
                         <option value="1958">1958</option>
                         <option value="1959">1959</option>
@@ -439,6 +538,18 @@
             <div id="specialNote" class="special-note" style="display: none;">
                 🎉 Congratulations! You are older than the oldest continuous CO<sub>2</sub> records at Mauna Loa Observatory!
             </div>
+
+            <div id="iceCoreBanner" class="special-note" style="display: none; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);">
+                🎉 Congratulations! You are older than the longest continuous record of atmospheric CO<sub>2</sub> from Mauna Loa, Hawaii. ❄️ Your CO<sub>2</sub> age is based on Antarctic ice core data, which provides a record of past CO<sub>2</sub> levels from air bubbles trapped in the ice.
+            </div>
+            
+            <div class="co2-age-banner" id="co2AgeBanner" style="display: none;">
+                <div>Your CO<sub>2</sub> Age is:</div>
+                <div class="age-value" id="co2AgeValue">- ppm</div>
+            </div>
+
+
+            
             <div class="stats-grid">
                 <div class="stat-card birth-co2">
                     <div class="stat-value" id="birthCO2">-</div>
@@ -448,31 +559,40 @@
                     <div class="stat-value" id="currentCO2">-</div>
                     <div class="stat-label">Current CO<sub>2</sub> (ppm)</div>
                 </div>
+            </div>
+
+            <div class="stats-grid-second">
                 <div class="stat-card total-increase">
                     <div class="stat-value" id="totalIncrease">-</div>
                     <div class="stat-label">Total CO<sub>2</sub> Increase (ppm)</div>
                 </div>
                 <div class="stat-card increase-percent">
                     <div class="stat-value" id="increase">-</div>
-                    <div class="stat-label">Percentage Increase (%)</div>
+                    <div class="stat-label">Percent Increase (%)</div>
                 </div>
+               
             </div>
         </div>
 
         <!-- Simple SVG Scatter Plot -->
         <div class="chart-container">
-            <div class="chart-title">The Keeling Curve - Atmospheric CO<sub>2</sub> Over Time</div>
+            <div class="chart-title">Atmospheric CO<sub>2</sub> since 1958 - The Keeling Curve</div>
             <svg id="co2Chart"></svg>
             <div id="tooltip" class="tooltip"></div>
         </div>
 
         <div class="understanding-section">
             <h3>Understanding Your CO<sub>2</sub> Age</h3>
-            <p>Your "CO<sub>2</sub> age" represents how much atmospheric carbon dioxide has increased during your lifetime. This measurement helps put climate change into personal perspective by showing the tangible environmental changes you've witnessed simply by being alive.</p>
+            <p>Your "CO<sub>2</sub> age" represents how much atmospheric carbon dioxide has increased during your lifetime. This metric helps put climate change into personal perspective by contextualizing the rapid global CO<sub>2</sub> increase that has occurred during your lifetime. 
+</p>
+                        
+            <p>When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub>, measured in parts per million (ppm). Since then, human activities - primarily fossil fuel burning - have added more and more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age represents the CO<sub>2</sub> concentration when you were born, providing a personal reference point to the global CO<sub>2</sub> increase you've witnessed in your lifetime. 
+</p>
             
-            <p>When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub> measured in parts per million (ppm). Since then, human activities - primarily burning fossil fuels - have continuously added more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age shows exactly how much this vital atmospheric component has changed during your years on Earth.</p>
-            
-            <p>This increase isn't just a number - it represents a fundamental shift in our planet's atmospheric composition that affects global temperature, weather patterns, and ecosystem health. By understanding your personal CO<sub>2</sub> age, you can better appreciate both the scale and urgency of climate change action.</p>
+            <p>This increase isn't just a number - it represents a fundamental shift in our planet's atmospheric composition that affects global temperatures, weather patterns, precipitation, global ecosystems, and even human health. By understanding your personal CO<sub>2</sub> age, you can better appreciate the scale and rate at which atmospheric CO<sub>2</sub> has increased in your few short years on Earth. </p>
+
+            <p><strong>🌍 </strong> CO<sub>2</sub> age is not a one-to-one function – you may share the same CO<sub>2</sub> age as someone born in a different year, uniting us across generations in our shared climate-CO<sub>2</sub> trajectory. Due to the seasonal fluctuations in atmospheric CO<sub>2</sub>, people born months or even years apart can have similar CO<sub>2</sub> ages.</p>
+
         </div>
 
         <div class="seasonal-cycle">
@@ -519,7 +639,69 @@
 
     <script>
         // Complete CO2 data with monthly measurements for every year from 1958-2025
+        // and annual ice core data for 1900-1957
         const co2Data = {
+            // Ice core data (annual averages) 1900-1957 - NASA GISS data
+            1900: [295.7, 295.7, 295.7, 295.7, 295.7, 295.7, 295.7, 295.7, 295.7, 295.7, 295.7, 295.7],
+            1901: [296.2, 296.2, 296.2, 296.2, 296.2, 296.2, 296.2, 296.2, 296.2, 296.2, 296.2, 296.2],
+            1902: [296.6, 296.6, 296.6, 296.6, 296.6, 296.6, 296.6, 296.6, 296.6, 296.6, 296.6, 296.6],
+            1903: [297.0, 297.0, 297.0, 297.0, 297.0, 297.0, 297.0, 297.0, 297.0, 297.0, 297.0, 297.0],
+            1904: [297.5, 297.5, 297.5, 297.5, 297.5, 297.5, 297.5, 297.5, 297.5, 297.5, 297.5, 297.5],
+            1905: [298.0, 298.0, 298.0, 298.0, 298.0, 298.0, 298.0, 298.0, 298.0, 298.0, 298.0, 298.0],
+            1906: [298.4, 298.4, 298.4, 298.4, 298.4, 298.4, 298.4, 298.4, 298.4, 298.4, 298.4, 298.4],
+            1907: [298.8, 298.8, 298.8, 298.8, 298.8, 298.8, 298.8, 298.8, 298.8, 298.8, 298.8, 298.8],
+            1908: [299.3, 299.3, 299.3, 299.3, 299.3, 299.3, 299.3, 299.3, 299.3, 299.3, 299.3, 299.3],
+            1909: [299.7, 299.7, 299.7, 299.7, 299.7, 299.7, 299.7, 299.7, 299.7, 299.7, 299.7, 299.7],
+            1910: [300.1, 300.1, 300.1, 300.1, 300.1, 300.1, 300.1, 300.1, 300.1, 300.1, 300.1, 300.1],
+            1911: [300.6, 300.6, 300.6, 300.6, 300.6, 300.6, 300.6, 300.6, 300.6, 300.6, 300.6, 300.6],
+            1912: [301.0, 301.0, 301.0, 301.0, 301.0, 301.0, 301.0, 301.0, 301.0, 301.0, 301.0, 301.0],
+            1913: [301.3, 301.3, 301.3, 301.3, 301.3, 301.3, 301.3, 301.3, 301.3, 301.3, 301.3, 301.3],
+            1914: [301.4, 301.4, 301.4, 301.4, 301.4, 301.4, 301.4, 301.4, 301.4, 301.4, 301.4, 301.4],
+            1915: [301.6, 301.6, 301.6, 301.6, 301.6, 301.6, 301.6, 301.6, 301.6, 301.6, 301.6, 301.6],
+            1916: [302.0, 302.0, 302.0, 302.0, 302.0, 302.0, 302.0, 302.0, 302.0, 302.0, 302.0, 302.0],
+            1917: [302.4, 302.4, 302.4, 302.4, 302.4, 302.4, 302.4, 302.4, 302.4, 302.4, 302.4, 302.4],
+            1918: [302.8, 302.8, 302.8, 302.8, 302.8, 302.8, 302.8, 302.8, 302.8, 302.8, 302.8, 302.8],
+            1919: [303.0, 303.0, 303.0, 303.0, 303.0, 303.0, 303.0, 303.0, 303.0, 303.0, 303.0, 303.0],
+            1920: [303.4, 303.4, 303.4, 303.4, 303.4, 303.4, 303.4, 303.4, 303.4, 303.4, 303.4, 303.4],
+            1921: [303.7, 303.7, 303.7, 303.7, 303.7, 303.7, 303.7, 303.7, 303.7, 303.7, 303.7, 303.7],
+            1922: [304.1, 304.1, 304.1, 304.1, 304.1, 304.1, 304.1, 304.1, 304.1, 304.1, 304.1, 304.1],
+            1923: [304.5, 304.5, 304.5, 304.5, 304.5, 304.5, 304.5, 304.5, 304.5, 304.5, 304.5, 304.5],
+            1924: [304.9, 304.9, 304.9, 304.9, 304.9, 304.9, 304.9, 304.9, 304.9, 304.9, 304.9, 304.9],
+            1925: [305.3, 305.3, 305.3, 305.3, 305.3, 305.3, 305.3, 305.3, 305.3, 305.3, 305.3, 305.3],
+            1926: [305.8, 305.8, 305.8, 305.8, 305.8, 305.8, 305.8, 305.8, 305.8, 305.8, 305.8, 305.8],
+            1927: [306.2, 306.2, 306.2, 306.2, 306.2, 306.2, 306.2, 306.2, 306.2, 306.2, 306.2, 306.2],
+            1928: [306.6, 306.6, 306.6, 306.6, 306.6, 306.6, 306.6, 306.6, 306.6, 306.6, 306.6, 306.6],
+            1929: [307.2, 307.2, 307.2, 307.2, 307.2, 307.2, 307.2, 307.2, 307.2, 307.2, 307.2, 307.2],
+            1930: [307.5, 307.5, 307.5, 307.5, 307.5, 307.5, 307.5, 307.5, 307.5, 307.5, 307.5, 307.5],
+            1931: [308.0, 308.0, 308.0, 308.0, 308.0, 308.0, 308.0, 308.0, 308.0, 308.0, 308.0, 308.0],
+            1932: [308.3, 308.3, 308.3, 308.3, 308.3, 308.3, 308.3, 308.3, 308.3, 308.3, 308.3, 308.3],
+            1933: [308.9, 308.9, 308.9, 308.9, 308.9, 308.9, 308.9, 308.9, 308.9, 308.9, 308.9, 308.9],
+            1934: [309.3, 309.3, 309.3, 309.3, 309.3, 309.3, 309.3, 309.3, 309.3, 309.3, 309.3, 309.3],
+            1935: [309.7, 309.7, 309.7, 309.7, 309.7, 309.7, 309.7, 309.7, 309.7, 309.7, 309.7, 309.7],
+            1936: [310.1, 310.1, 310.1, 310.1, 310.1, 310.1, 310.1, 310.1, 310.1, 310.1, 310.1, 310.1],
+            1937: [310.6, 310.6, 310.6, 310.6, 310.6, 310.6, 310.6, 310.6, 310.6, 310.6, 310.6, 310.6],
+            1938: [311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0],
+            1939: [311.2, 311.2, 311.2, 311.2, 311.2, 311.2, 311.2, 311.2, 311.2, 311.2, 311.2, 311.2],
+            1940: [311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3],
+            1941: [311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0, 311.0],
+            1942: [310.7, 310.7, 310.7, 310.7, 310.7, 310.7, 310.7, 310.7, 310.7, 310.7, 310.7, 310.7],
+            1943: [310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5],
+            1944: [310.2, 310.2, 310.2, 310.2, 310.2, 310.2, 310.2, 310.2, 310.2, 310.2, 310.2, 310.2],
+            1945: [310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3],
+            1946: [310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3, 310.3],
+            1947: [310.4, 310.4, 310.4, 310.4, 310.4, 310.4, 310.4, 310.4, 310.4, 310.4, 310.4, 310.4],
+            1948: [310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5, 310.5],
+            1949: [310.9, 310.9, 310.9, 310.9, 310.9, 310.9, 310.9, 310.9, 310.9, 310.9, 310.9, 310.9],
+            1950: [311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3, 311.3],
+            1951: [311.8, 311.8, 311.8, 311.8, 311.8, 311.8, 311.8, 311.8, 311.8, 311.8, 311.8, 311.8],
+            1952: [312.2, 312.2, 312.2, 312.2, 312.2, 312.2, 312.2, 312.2, 312.2, 312.2, 312.2, 312.2],
+            1953: [312.6, 312.6, 312.6, 312.6, 312.6, 312.6, 312.6, 312.6, 312.6, 312.6, 312.6, 312.6],
+            1954: [313.2, 313.2, 313.2, 313.2, 313.2, 313.2, 313.2, 313.2, 313.2, 313.2, 313.2, 313.2],
+            1955: [313.7, 313.7, 313.7, 313.7, 313.7, 313.7, 313.7, 313.7, 313.7, 313.7, 313.7, 313.7],
+            1956: [314.3, 314.3, 314.3, 314.3, 314.3, 314.3, 314.3, 314.3, 314.3, 314.3, 314.3, 314.3],
+            1957: [314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8, 314.8],
+            // Mauna Loa data (monthly measurements) 1958-2025
+            1958: [315.71, 315.71, 315.71, 317.45, 317.51, 317.27, 315.87, 314.93, 313.21, 312.42, 313.33, 314.67],
             1958: [315.71, 315.71, 315.71, 317.45, 317.51, 317.27, 315.87, 314.93, 313.21, 312.42, 313.33, 314.67],
             1959: [315.58, 316.49, 316.65, 317.72, 318.29, 318.15, 316.54, 314.80, 313.84, 313.33, 314.81, 315.58],
             1960: [316.43, 316.98, 317.58, 319.03, 320.03, 319.58, 318.18, 315.90, 314.17, 313.83, 315.00, 316.19],
@@ -602,13 +784,13 @@
             // Clear existing content
             svg.innerHTML = '';
             
-            // SVG dimensions
+            // SVG dimensions - increased height
             const margin = {top: 20, right: 30, bottom: 80, left: 100};
             const width = 800 - margin.left - margin.right;
-            const height = 400 - margin.top - margin.bottom;
+            const height = 700 - margin.top - margin.bottom;
             
             // Set SVG dimensions
-            svg.setAttribute('viewBox', `0 0 800 400`);
+            svg.setAttribute('viewBox', `0 0 800 700`);
             
             // Generate all data points
             const allData = [];
@@ -628,11 +810,11 @@
                 }
             }
             
-            // Calculate scales - updated to span 1955-2025
+            // Calculate scales - updated ranges
             const xMin = 1955;
-            const xMax = 2025;
-            const yMin = Math.min(...allData.map(d => d.co2)) - 5;
-            const yMax = Math.max(...allData.map(d => d.co2)) + 5;
+            const xMax = 2030;
+            const yMin = 275;
+            const yMax = 440;
             
             // Scale functions
             const xScale = (x) => margin.left + ((x - xMin) / (xMax - xMin)) * width;
@@ -650,8 +832,8 @@
             svg.appendChild(rect);
             
             // Create grid lines
-            // Vertical grid lines (every 5 years from 1955 to 2025)
-            for (let year = 1955; year <= 2025; year += 5) {
+            // Vertical grid lines (every 5 years from 1955 to 2030)
+            for (let year = 1955; year <= 2030; year += 5) {
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('x1', xScale(year));
                 line.setAttribute('y1', margin.top);
@@ -662,8 +844,8 @@
                 svg.appendChild(line);
             }
             
-            // Horizontal grid lines (every 20 ppm)
-            for (let co2 = 320; co2 <= 440; co2 += 20) {
+            // Horizontal grid lines (every 20 ppm from 280 to 440)
+            for (let co2 = 280; co2 <= 440; co2 += 20) {
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('x1', margin.left);
                 line.setAttribute('y1', yScale(co2));
@@ -673,6 +855,27 @@
                 line.setAttribute('stroke-width', '1');
                 svg.appendChild(line);
             }
+            
+            // Add pre-industrial CO2 reference line (280 ppm)
+            const preIndustrialLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            preIndustrialLine.setAttribute('x1', margin.left);
+            preIndustrialLine.setAttribute('y1', yScale(280));
+            preIndustrialLine.setAttribute('x2', margin.left + width);
+            preIndustrialLine.setAttribute('y2', yScale(280));
+            preIndustrialLine.setAttribute('stroke', '#666');
+            preIndustrialLine.setAttribute('stroke-width', '2');
+            preIndustrialLine.setAttribute('stroke-dasharray', '10,5');
+            svg.appendChild(preIndustrialLine);
+            
+            // Add pre-industrial label
+            const preIndustrialLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            preIndustrialLabel.setAttribute('x', margin.left + width - 10);
+            preIndustrialLabel.setAttribute('y', yScale(280) - 8);
+            preIndustrialLabel.setAttribute('text-anchor', 'end');
+            preIndustrialLabel.setAttribute('class', 'axis-label');
+            preIndustrialLabel.setAttribute('fill', '#666');
+            preIndustrialLabel.textContent = 'Pre-Industrial CO₂ levels (280 ppm)';
+            svg.appendChild(preIndustrialLabel);
             
             // Plot data points
             allData.forEach((d, i) => {
@@ -720,8 +923,8 @@
             yAxis.setAttribute('stroke-width', '3');
             svg.appendChild(yAxis);
             
-            // X-axis labels (every 5 years from 1955 to 2025)
-            for (let year = 1955; year <= 2025; year += 5) {
+            // X-axis labels (every 5 years from 1955 to 2030)
+            for (let year = 1955; year <= 2030; year += 5) {
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 text.setAttribute('x', xScale(year));
                 text.setAttribute('y', margin.top + height + 25);
@@ -731,8 +934,8 @@
                 svg.appendChild(text);
             }
             
-            // Y-axis labels (every 20 ppm)
-            for (let co2 = 320; co2 <= 440; co2 += 20) {
+            // Y-axis labels (every 20 ppm from 280 to 440)
+            for (let co2 = 280; co2 <= 440; co2 += 20) {
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 text.setAttribute('x', margin.left - 15);
                 text.setAttribute('y', yScale(co2) + 6);
@@ -757,7 +960,7 @@
             yTitle.setAttribute('text-anchor', 'middle');
             yTitle.setAttribute('class', 'axis-title');
             yTitle.setAttribute('transform', `rotate(-90, 30, ${margin.top + height/2})`);
-            yTitle.textContent = 'CO₂ Concentration (ppm)';
+            yTitle.textContent = 'Atmospheric CO₂ (ppm)';
             svg.appendChild(yTitle);
         }
 
@@ -767,13 +970,13 @@
             const svg = document.getElementById('co2Chart');
             const margin = {top: 20, right: 30, bottom: 80, left: 100};
             const width = 800 - margin.left - margin.right;
-            const height = 400 - margin.top - margin.bottom;
+            const height = 700 - margin.top - margin.bottom;
             
             // Calculate scales (same as in createScatterPlot) - updated range
             const xMin = 1955;
-            const xMax = 2025;
-            const yMin = Math.min(...Object.values(co2Data).flat()) - 5;
-            const yMax = Math.max(...Object.values(co2Data).flat()) + 5;
+            const xMax = 2030;
+            const yMin = 275;
+            const yMax = 440;
             
             const xScale = (x) => margin.left + ((x - xMin) / (xMax - xMin)) * width;
             const yScale = (y) => height + margin.top - ((y - yMin) / (yMax - yMin)) * height;
@@ -811,13 +1014,19 @@
             const birthYearValue = document.getElementById('birthYear').value;
             const birthMonth = parseInt(document.getElementById('birthMonth').value);
             
-            let birthYear, isBeforeRecords = false;
+            let birthYear, isBeforeRecords = false, isIceCoreData = false;
             
-            if (birthYearValue === 'before1958') {
+            if (birthYearValue === 'before1900') {
+                birthYear = 1900;
+                isBeforeRecords = true;
+            } else if (birthYearValue === 'before1958') {
                 birthYear = 1958;
                 isBeforeRecords = true;
             } else {
                 birthYear = parseInt(birthYearValue);
+                if (birthYear >= 1900 && birthYear <= 1957) {
+                    isIceCoreData = true;
+                }
             }
             
             const birthCO2 = co2Data[birthYear][birthMonth - 1];
@@ -825,15 +1034,26 @@
             const increase = ((currentCO2 - birthCO2) / birthCO2 * 100);
             const totalIncrease = currentCO2 - birthCO2;
             
-            // Show/hide special note
+            // Show/hide special notes
             const specialNote = document.getElementById('specialNote');
+            const iceCoreBanner = document.getElementById('iceCoreBanner');
             const birthLabel = document.getElementById('birthLabel');
             
-            if (isBeforeRecords) {
+            if (isBeforeRecords && birthYear === 1900) {
                 specialNote.style.display = 'block';
-                birthLabel.innerHTML = 'Earliest CO<sub>2</sub> Record (1958)';
+                iceCoreBanner.style.display = 'block';
+                birthLabel.innerHTML = 'Earliest Ice Core Record (1900)';
+            } else if (isBeforeRecords && birthYear === 1958) {
+                specialNote.style.display = 'block';
+                iceCoreBanner.style.display = 'none';
+                birthLabel.innerHTML = 'Earliest Mauna Loa Record (1958)';
+            } else if (isIceCoreData) {
+                specialNote.style.display = 'none';
+                iceCoreBanner.style.display = 'block';
+                birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm) - Ice Core Data';
             } else {
                 specialNote.style.display = 'none';
+                iceCoreBanner.style.display = 'none';
                 birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm)';
             }
             
@@ -842,6 +1062,10 @@
             document.getElementById('currentCO2').textContent = currentCO2.toFixed(1);
             document.getElementById('increase').textContent = '+' + increase.toFixed(1) + '%';
             document.getElementById('totalIncrease').textContent = '+' + totalIncrease.toFixed(1);
+            
+            // Update CO2 Age Banner
+            document.getElementById('co2AgeValue').textContent = birthCO2.toFixed(1) + ' ppm';
+            document.getElementById('co2AgeBanner').style.display = 'block';
             
             // Store user data for chart
             userBirthYear = birthYear;
