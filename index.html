@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your CO2 age - How much has atmospheric CO2 increased in your lifetime? </title>
+    <title>Your CO2 age - How much has atmospheric CO2 increased in your lifetime?</title>
     <style>
         * {
             margin: 0;
@@ -187,6 +187,11 @@
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 15px rgba(222, 45, 38, 0.3);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(222, 45, 38, 0.4);
         }
 
         .download-btn {
@@ -541,12 +546,8 @@
         </div>
 
         <div class="results" id="results">
-            <div id="specialNote" class="special-note" style="display: none;">
-                🎉 Congratulations! You are older than the oldest continuous CO<sub>2</sub> records at Mauna Loa Observatory! We will need to turn to a different CO<sub>2</sub> record to calculate your CO<sub>2</sub> age. 
-            </div>
-
             <div id="iceCoreBanner" class="special-note" style="display: none; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);">
-                🎉 Congratulations! You are older than the longest continuous record of atmospheric CO<sub>2</sub> from Mauna Loa, Hawaii. ❄️ Your CO<sub>2</sub> age is based on Antarctic ice core data, which provides a record of past CO<sub>2</sub> levels from air bubbles trapped in the ice.
+                🎉 Your CO<sub>2</sub> age is based on Antarctic ice core data, which provides a record of past CO<sub>2</sub> levels from air bubbles trapped in the ice.
             </div>
             
             <div class="co2-age-banner" id="co2AgeBanner" style="display: none;">
@@ -593,29 +594,29 @@
 
         <div class="understanding-section">
             <h3>Understanding Your CO<sub>2</sub> Age</h3>
-            <p>Your "CO<sub>2</sub> age" represents how much atmospheric carbon dioxide has increased during your lifetime. This metric helps put climate change into personal perspective by contextualizing the rapid global CO<sub>2</sub> increase that has occurred during your lifetime. </p>
+            <p>Your "CO<sub>2</sub> age" represents how much atmospheric carbon dioxide has increased during your lifetime. This metric helps put climate change into personal perspective by contextualizing the rapid global CO<sub>2</sub> increase that has occurred during your lifetime.</p>
                         
-            <p>When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub>, measured in parts per million (ppm). Since then, human activities - primarily fossil fuel burning - have added more and more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age represents the total increase in CO<sub>2</sub> concentration that has occurred during your lifetime, providing a personal reference point to the global CO<sub>2</sub> increase you've witnessed. </p>
+            <p>When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub>, measured in parts per million (ppm). Since then, human activities - primarily fossil fuel burning - have added more and more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age represents the total increase in CO<sub>2</sub> concentration that has occurred during your lifetime, providing a personal reference point to the global CO<sub>2</sub> increase you've witnessed.</p>
             
-            <p>This increase isn't just a number - it represents a fundamental shift in our planet's atmospheric composition that affects global temperatures, weather patterns, precipitation, global ecosystems, and even human health. By understanding your personal CO<sub>2</sub> age, you can better appreciate the scale and rate at which atmospheric CO<sub>2</sub> has increased in your few short years on Earth. </p>
+            <p>This increase isn't just a number - it represents a fundamental shift in our planet's atmospheric composition that affects global temperatures, weather patterns, precipitation, global ecosystems, and even human health. By understanding your personal CO<sub>2</sub> age, you can better appreciate the scale and rate at which atmospheric CO<sub>2</sub> has increased in your few short years on Earth.</p>
 
-            <p><strong>🌍 </strong> CO<sub>2</sub> age is not a one-to-one function — you may share the same CO<sub>2</sub> age as someone born in a different year, uniting us across generations in our shared climate-CO<sub>2</sub> trajectory. Due to the seasonal fluctuations in atmospheric CO<sub>2</sub>, people born months or even years apart can have similar CO<sub>2</sub> ages.</p>
+            <p><strong>🌎 </strong> CO<sub>2</sub> age is not a one-to-one function — you may share the same CO<sub>2</sub> age as someone born in a different year, uniting us across generations in our shared climate-CO<sub>2</sub> trajectory. Due to the seasonal fluctuations in atmospheric CO<sub>2</sub>, people born months or even years apart can have similar CO<sub>2</sub> ages.</p>
         </div>
 
         <div class="seasonal-cycle">
             <h3>Understanding the Seasonal CO<sub>2</sub> Cycle</h3>
-            <p>The Keeling Curve shows a distinctive sinusoidal or "sawtooth" pattern with regular peaks and troughs each year, on top of a steadily increasing baseline. This seasonal cycle is driven by the annual cycle in plant respiration in the Northern Hemisphere, where most of Earth's terrestrial biomass is located. </p>
+            <p>The Keeling Curve shows a distinctive sinusoidal or "sawtooth" pattern with regular peaks and troughs each year, on top of a steadily increasing baseline. This seasonal cycle is driven by the annual cycle in plant respiration in the Northern Hemisphere, where most of Earth's terrestrial biomass is located.</p>
             
             <p><strong>Spring and Summer (CO<sub>2</sub> decreases):</strong> As plants photosynthesize and grow, they absorb large amounts of CO<sub>2</sub> from the atmosphere and convert it into organic biomass. This natural process temporarily reduces atmospheric CO<sub>2</sub> concentrations, leading to the annual minimum typically observed in late summer.</p>
             
             <p><strong>Fall and Winter (CO<sub>2</sub> increases):</strong> When plants decompose and respire, or when they reduce photosynthesis during winter months, plant respiration and microbial decomposition release stored carbon back to the atmosphere as CO<sub>2</sub>. This leads to the annual maximum typically observed in late winter or early spring.</p>
             
-            <p>The seasonal amplitude of this natural "Earth breathing" cycle has been increasing over recent decades as atmospheric CO<sub>2</sub> levels rise and plant growing seasons change due to climate change. This expanding range demonstrates how Earth's ecosystems are responding to our changing atmosphere. </p>
+            <p>The seasonal amplitude of this natural "Earth breathing" cycle has been increasing over recent decades as atmospheric CO<sub>2</sub> levels rise and plant growing seasons change due to climate change. This expanding range demonstrates how Earth's ecosystems are responding to our changing atmosphere.</p>
         </div>
 
         <div class="explanation">
             <h3>About the Keeling Curve and CO<sub>2</sub> Monitoring</h3>
-            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory in Hawaii from 1958 to the present day. </p>
+            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory in Hawaii from 1958 to the present day.</p>
                 
             <p>The curve is named after scientist Dr. Charles David Keeling, who started the atmospheric monitoring program and supervised it until his death in 2005. The program has been continued under the leadership of Dr. Charles Keeling's son, Dr. Ralph F. Keeling with support from the U.S. National Science Foundation and National Oceanic and Atmospheric Administration. Keeling's measurements showed the first significant evidence of rapidly increasing carbon dioxide (CO<sub>2</sub>) levels in the atmosphere. Many scientists credit the Keeling curve with first bringing the world's attention to the current increase of CO<sub>2</sub> in the atmosphere.</p>
             
@@ -627,7 +628,7 @@
             <p><strong>Scripps Institution of Oceanography:</strong> The original Keeling program continues under Ralph Keeling's direction, providing independent verification and additional scientific analysis of atmospheric CO<sub>2</sub> trends and seasonal patterns.</p>
             
             <h3>Historical Context and Significance</h3>
-            <p>Mauna Loa was chosen as a long-term monitoring site due to its remote location, isolation from anthropogenic activities, and its lack of vegetation. </p>
+            <p>Mauna Loa was chosen as a long-term monitoring site due to its remote location, isolation from anthropogenic activities, and its lack of vegetation.</p>
             
             <p>The measurements collected at Mauna Loa Observatory show a steady increase in mean atmospheric CO<sub>2</sub> concentration from 313 ppm in March 1958 to 428 ppm in July 2025. The amount of carbon dioxide in the atmosphere has risen more than 50 percent since humans began burning fossil fuels for energy.</p>
             
@@ -967,6 +968,7 @@
             if (!userBirthYear || !userBirthMonth || !userBirthCO2) return;
             
             const svg = document.getElementById('co2Chart');
+            const tooltip = document.getElementById('tooltip');
             const margin = {top: 20, right: 30, bottom: 80, left: 100};
             const width = 800 - margin.left - margin.right;
             const height = 700 - margin.top - margin.bottom;
@@ -993,11 +995,11 @@
             const totalIncrease = currentCO2 - userBirthCO2;
             const percentIncrease = ((currentCO2 - userBirthCO2) / userBirthCO2 * 100);
             
-            // Calculate line position (no vertical offset, same CO2 levels as actual data)
+            // Calculate line position
             const birthX = userBirthYear + (userBirthMonth - 1) / 12;
-            const lineX = xScale(birthX); // Same X position as birth marker
-            const lineStartY = yScale(userBirthCO2); // Start at birth CO2 level
-            const lineEndY = yScale(currentCO2); // End at current CO2 level
+            const lineX = xScale(birthX);
+            const lineStartY = yScale(userBirthCO2);
+            const lineEndY = yScale(currentCO2);
             
             // Create vertical line showing increase
             const increaseLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -1029,7 +1031,7 @@
             
             // Add label showing the increase (positioned to the left)
             const labelY = lineStartY + (lineEndY - lineStartY) / 2;
-            const labelX = lineX - 160; // Position to the left of the line
+            const labelX = lineX - 160;
             
             // Create background for label
             const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -1101,7 +1103,6 @@
             star.setAttribute('points', starPoints.join(' '));
             star.setAttribute('class', 'birth-marker');
             
-            const tooltip = document.getElementById('tooltip');
             star.addEventListener('mouseenter', (e) => {
                 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -1122,30 +1123,32 @@
             const birthYear = parseInt(document.getElementById('birthYear').value);
             const birthMonth = parseInt(document.getElementById('birthMonth').value);
             
+            // Handle edge cases for birth years before data availability
+            let actualBirthYear = birthYear;
+            if (birthYear < 1900) {
+                actualBirthYear = 1900;
+            }
+            
             // Get CO2 values
-            const birthCO2 = co2Data[birthYear][birthMonth - 1];
+            const birthCO2 = co2Data[actualBirthYear][birthMonth - 1];
             const currentCO2 = co2Data[2025][6]; // July 2025 (index 6)
             const totalIncrease = currentCO2 - birthCO2;
             const percentIncrease = ((currentCO2 - birthCO2) / birthCO2 * 100);
             
             // Determine data source and show appropriate banners
-            const specialNote = document.getElementById('specialNote');
             const iceCoreBanner = document.getElementById('iceCoreBanner');
             const birthLabel = document.getElementById('birthLabel');
             
             if (birthYear >= 1900 && birthYear <= 1957) {
                 // Ice core data
-                specialNote.style.display = 'none';
                 iceCoreBanner.style.display = 'block';
                 birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm) - Ice Core Data';
             } else if (birthYear < 1900) {
                 // Before available records
-                specialNote.style.display = 'block';
                 iceCoreBanner.style.display = 'block';
                 birthLabel.innerHTML = 'Earliest Available Record (1900)';
             } else {
                 // Mauna Loa data (1958 onwards)
-                specialNote.style.display = 'none';
                 iceCoreBanner.style.display = 'none';
                 birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm)';
             }
@@ -1160,7 +1163,7 @@
             document.getElementById('co2AgeValue').textContent = '+' + totalIncrease.toFixed(1) + ' ppm';
             document.getElementById('co2AgeBanner').style.display = 'block';
             
-            // Store user data for chart
+            // Store user data for chart (use actual birth year for chart marker)
             userBirthYear = birthYear;
             userBirthMonth = birthMonth;
             userBirthCO2 = birthCO2;
@@ -1180,12 +1183,6 @@
         // Initialize scatter plot on page load
         document.addEventListener('DOMContentLoaded', function() {
             createScatterPlot();
-            
-            // Add event listener as backup
-            const calculateBtn = document.querySelector('.calculate-btn');
-            if (calculateBtn) {
-                calculateBtn.addEventListener('click', calculateCO2Age);
-            }
         });
 
         // Make function globally available
