@@ -1044,7 +1044,16 @@
         // Initialize scatter plot on page load
         document.addEventListener('DOMContentLoaded', function() {
             createScatterPlot();
+            
+            // Add event listener as backup
+            const calculateBtn = document.querySelector('.calculate-btn');
+            if (calculateBtn) {
+                calculateBtn.addEventListener('click', calculateCO2Age);
+            }
         });
+
+        // Make function globally available
+        window.calculateCO2Age = calculateCO2Age;
     </script>
 </body>
 </html>
