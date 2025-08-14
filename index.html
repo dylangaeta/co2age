@@ -1210,7 +1210,7 @@
                 const container = document.createElement('div');
                 container.style.width = '1080px';
                 container.style.background = 'linear-gradient(135deg, #08306b 0%, #2171b5 10%, #4292c6 20%, #6baed6 30%, #9ecae1 40%, #c6dbef 50%, #deebf7 60%, #fee0d2 70%, #fcbba1 80%, #fc9272 90%, #fb6a4a 95%, #de2d26 100%)';
-                container.style.padding = '40px';
+                container.style.padding = '20px';
                 container.style.fontFamily = '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
                 container.style.position = 'absolute';
                 container.style.left = '-9999px';
@@ -1218,18 +1218,20 @@
                 
                 // Add title
                 const title = document.createElement('div');
-                title.innerHTML = '<h1 style="color: white; font-size: 3rem; text-align: center; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">My CO<sub>2</sub> Age</h1>';
+                title.innerHTML = '<h1 style="color: white; font-size: 2.5rem; text-align: center; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">My CO<sub>2</sub> Age</h1>';
                 container.appendChild(title);
                 
                 const subtitle = document.createElement('div');
-                subtitle.innerHTML = '<p style="color: white; font-size: 1.2rem; text-align: center; margin-bottom: 2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">How much atmospheric CO<sub>2</sub> has increased during my lifetime</p>';
+                subtitle.innerHTML = '<p style="color: white; font-size: 1rem; text-align: center; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">How much atmospheric CO<sub>2</sub> has increased during my lifetime</p>';
                 container.appendChild(subtitle);
                 
                 // Clone and add the CO2 age banner
                 const co2Banner = document.getElementById('co2AgeBanner');
                 if (co2Banner && co2Banner.style.display !== 'none') {
                     const bannerClone = co2Banner.cloneNode(true);
-                    bannerClone.style.marginBottom = '2rem';
+                    bannerClone.style.marginBottom = '1rem';
+                    bannerClone.style.fontSize = '1.5rem';
+                    bannerClone.querySelector('.age-value').style.fontSize = '2.5rem';
                     container.appendChild(bannerClone);
                 }
                 
@@ -1237,7 +1239,9 @@
                 const iceCoreBanner = document.getElementById('iceCoreBanner');
                 if (iceCoreBanner && iceCoreBanner.style.display !== 'none') {
                     const iceBannerClone = iceCoreBanner.cloneNode(true);
-                    iceBannerClone.style.marginBottom = '1.5rem';
+                    iceBannerClone.style.marginBottom = '1rem';
+                    iceBannerClone.style.fontSize = '0.9rem';
+                    iceBannerClone.style.padding = '1rem';
                     container.appendChild(iceBannerClone);
                 }
                 
@@ -1245,13 +1249,14 @@
                 const statsGrid = document.querySelector('.stats-grid');
                 if (statsGrid) {
                     const statsClone = statsGrid.cloneNode(true);
+                    statsClone.style.marginBottom = '1rem';
                     container.appendChild(statsClone);
                 }
                 
                 const statsGrid2 = document.querySelector('.stats-grid-second');
                 if (statsGrid2) {
                     const stats2Clone = statsGrid2.cloneNode(true);
-                    stats2Clone.style.marginBottom = '2rem';
+                    stats2Clone.style.marginBottom = '1rem';
                     container.appendChild(stats2Clone);
                 }
                 
@@ -1259,9 +1264,10 @@
                 const chartContainer = document.querySelector('.chart-container');
                 if (chartContainer) {
                     const chartClone = chartContainer.cloneNode(true);
-                    chartClone.style.marginBottom = '2rem';
-                    // Scale down the chart slightly for mobile
-                    chartClone.style.transform = 'scale(0.9)';
+                    chartClone.style.marginBottom = '1rem';
+                    chartClone.style.padding = '1rem';
+                    // Scale down the chart for better fit
+                    chartClone.style.transform = 'scale(0.85)';
                     chartClone.style.transformOrigin = 'center top';
                     container.appendChild(chartClone);
                 }
@@ -1269,10 +1275,10 @@
                 // Add footer
                 const footer = document.createElement('div');
                 footer.innerHTML = `
-                    <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 20px; text-align: center; margin-top: 2rem;">
-                        <p style="color: #333; font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 600;">What's your CO<sub>2</sub> age?</p>
-                        <p style="color: #666; font-size: 1rem; margin-bottom: 1rem;">Find out and share with friends!</p>
-                        <p style="color: #de2d26; font-size: 1.1rem; font-weight: bold;">#CO2Age #ClimateChange</p>
+                    <div style="background: rgba(255, 255, 255, 0.95); padding: 1.5rem; border-radius: 20px; text-align: center; margin-top: 1rem;">
+                        <p style="color: #333; font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 600;">What's your CO<sub>2</sub> age?</p>
+                        <p style="color: #666; font-size: 0.95rem; margin-bottom: 0.75rem;">Calculate yours at <strong style="color: #de2d26;">www.yourco2age.com</strong></p>
+                        <p style="color: #de2d26; font-size: 1rem; font-weight: bold;">#CO2Age #ClimateChange</p>
                     </div>
                 `;
                 container.appendChild(footer);
