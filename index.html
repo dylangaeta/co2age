@@ -459,7 +459,6 @@
                         <option value="1955">1955</option>
                         <option value="1956">1956</option>
                         <option value="1957">1957</option>
-                        <option value="before1958">Before 1958</option>
                         <option value="1958">1958</option>
                         <option value="1959">1959</option>
                         <option value="1960">1960</option>
@@ -492,10 +491,10 @@
                         <option value="1987">1987</option>
                         <option value="1988">1988</option>
                         <option value="1989">1989</option>
-                        <option value="1990" selected>1990</option>
+                        <option value="1990">1990</option>
                         <option value="1991">1991</option>
                         <option value="1992">1992</option>
-                        <option value="1993">1993</option>
+                        <option value="1993" selected>1993</option>
                         <option value="1994">1994</option>
                         <option value="1995">1995</option>
                         <option value="1996">1996</option>
@@ -531,12 +530,12 @@
                     </select>
                 </div>
             </div>
-            <button class="calculate-btn" onclick="calculateCO2Journey()">Calculate My CO<sub>2</sub> Age</button>
+            <button class="calculate-btn" onclick="calculateCO2Age()">Calculate My CO<sub>2</sub> Age</button>
         </div>
 
         <div class="results" id="results">
             <div id="specialNote" class="special-note" style="display: none;">
-                🎉 Congratulations! You are older than the oldest continuous CO<sub>2</sub> records at Mauna Loa Observatory!
+                🎉 Congratulations! You are older than the oldest continuous CO<sub>2</sub> records at Mauna Loa Observatory! We will need to turn to a different CO<sub>2</sub> record to calculate your CO<sub>2</sub> age. 
             </div>
 
             <div id="iceCoreBanner" class="special-note" style="display: none; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);">
@@ -545,7 +544,7 @@
             
             <div class="co2-age-banner" id="co2AgeBanner" style="display: none;">
                 <div>Your CO<sub>2</sub> Age is:</div>
-                <div class="age-value" id="co2AgeValue">- ppm</div>
+                <div class="age-value" id="totalIncrease">- ppm</div>
             </div>
 
 
@@ -597,22 +596,20 @@
 
         <div class="seasonal-cycle">
             <h3>Understanding the Seasonal CO<sub>2</sub> Cycle</h3>
-            <p>The Keeling Curve shows a distinctive "sawtooth" pattern with regular ups and downs each year. This seasonal cycle is caused by the annual rhythm of plant life in the Northern Hemisphere, where most of Earth's land vegetation is located.</p>
+            <p>The Keeling Curve shows a distinctive sinusoidal or "sawtooth" pattern with regular peaks and troughs each year, on top of a steadily increasing baseline. This seasonal cycle is driven by the annual cycle in plant respiration in the Northern Hemisphere, where most of Earth's terrestrial biomass is located. </p>
             
-            <p><strong>Spring and Summer (CO<sub>2</sub> decreases):</strong> As plants grow and photosynthesize, they absorb large amounts of CO<sub>2</sub> from the atmosphere, converting it into biomass. This natural process temporarily reduces atmospheric CO<sub>2</sub> concentrations, creating the annual minimum typically observed in late summer.</p>
+            <p><strong>Spring and Summer (CO<sub>2</sub> decreases):</strong> As plants photosynthesize and grow, they absorb large amounts of CO<sub>2</sub> from the atmosphere and convert it into organic biomass. This natural process temporarily reduces atmospheric CO<sub>2</sub> concentrations, leading to the annual minimum typically observed in late summer.</p>
             
-            <p><strong>Fall and Winter (CO<sub>2</sub> increases):</strong> When plants shed their leaves and decompose, or when they reduce photosynthesis during winter dormancy, plant respiration and bacterial decomposition release stored carbon back to the atmosphere as CO<sub>2</sub>. This creates the annual maximum typically observed in late winter or early spring.</p>
+            <p><strong>Fall and Winter (CO<sub>2</sub> increases):</strong> When plants decompose and respire, or when they reduce photosynthesis during winter months, plant respiration and microbial decomposition release stored carbon back to the atmosphere as CO<sub>2</sub>. This leads to the annual maximum typically observed in late winter or early spring.</p>
             
-            <p>The seasonal amplitude of this natural breathing cycle has been increasing over recent decades as atmospheric CO<sub>2</sub> levels rise and growing seasons change due to climate change. This expanding range demonstrates how Earth's ecosystems are responding to our changing atmosphere.</p>
+            <p>The seasonal amplitude of this natural "Earth breathing" cycle has been increasing over recent decades as atmospheric CO<sub>2</sub> levels rise and plant growing seasons change due to climate change. This expanding range demonstrates how Earth's ecosystems are responding to our changing atmosphere. </p>
         </div>
 
         <div class="explanation">
             <h3>About the Keeling Curve and CO<sub>2</sub> Monitoring</h3>
-            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory on the island of Hawaii from 1958 to the present day. The curve is named for scientist Charles David Keeling, who started the monitoring program and supervised it until his death in 2005.</p>
-            
-            <p>The Scripps CO<sub>2</sub> program was initiated in 1956 by Charles David Keeling and is currently being continued by Ralph F. Keeling, who also runs a parallel program at the Scripps Institution of Oceanography to measure changes in atmospheric O<sub>2</sub> and Ar abundances. Measuring atmospheric carbon dioxide (CO<sub>2</sub>) levels is essential for understanding the impact of human activities, especially the burning of fossil fuels, on climate change.</p>
-            
-            <p>Keeling's measurements showed the first significant evidence of rapidly increasing carbon dioxide (CO<sub>2</sub>) levels in the atmosphere. Many scientists credit the Keeling curve with first bringing the world's attention to the current increase of CO<sub>2</sub> in the atmosphere.</p>
+            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory in Hawaii from 1958 to the present day. </p>
+                
+            <p>The curve is named after scientist Dr. Charles David Keeling, who started the atmospheric monitoring program and supervised it until his death in 2005. The program has been continued under the leadership of Dr. Charles Keeling's son, Dr. Ralph F. Keeling with support from the U.S. National Science Foundation and National Oceanic and Atmospheric Administration. Keeling's measurements showed the first significant evidence of rapidly increasing carbon dioxide (CO<sub>2</sub>) levels in the atmosphere. Many scientists credit the Keeling curve with first bringing the world's attention to the current increase of CO<sub>2</sub> in the atmosphere.</p>
             
             <h3>Current Data Sources</h3>
             <p>Today's atmospheric CO<sub>2</sub> measurements come from two primary sources working in parallel:</p>
@@ -622,12 +619,12 @@
             <p><strong>Scripps Institution of Oceanography:</strong> The original Keeling program continues under Ralph Keeling's direction, providing independent verification and additional scientific analysis of atmospheric CO<sub>2</sub> trends and seasonal patterns.</p>
             
             <h3>Historical Context and Significance</h3>
-            <p>Mauna Loa was chosen as a long-term monitoring site due to its remote location far from continents and its lack of vegetation. Keeling and his collaborators measured the incoming ocean breeze above the thermal inversion layer to minimize local contamination from volcanic vents.</p>
+            <p>Mauna Loa was chosen as a long-term monitoring site due to its remote location, isolation from anthropogenic activities, and its lack of vegetation. </p>
             
-            <p>The measurements collected at Mauna Loa Observatory show a steady increase in mean atmospheric CO<sub>2</sub> concentration from 313 parts per million by volume (ppm) in March 1958 to 427.87 ppm in July 2025. The amount of carbon dioxide in the atmosphere has risen more than 50 percent since people began burning fossil fuels for energy.</p>
+            <p>The measurements collected at Mauna Loa Observatory show a steady increase in mean atmospheric CO<sub>2</sub> concentration from 313 ppm in March 1958 to 428 ppm in July 2025. The amount of carbon dioxide in the atmosphere has risen more than 50 percent since humans began burning fossil fuels for energy.</p>
             
             <h3>Additional Resources</h3>
-            <p>For the most up-to-date CO<sub>2</sub> measurements, detailed scientific analysis, and comprehensive historical data, visit:</p>
+            <p>For the most up-to-date CO<sub>2</sub> measurements, scientific analyses, and comprehensive historical data, visit:</p>
             <ul style="margin-left: 2rem; margin-bottom: 1rem;">
                 <li><strong>Scripps CO<sub>2</sub> Program:</strong> <a href="https://scrippsco2.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">scrippsco2.ucsd.edu</a></li>
                 <li><strong>NOAA Trends in CO<sub>2</sub>:</strong> <a href="https://gml.noaa.gov/ccgg/trends/mlo.html" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">gml.noaa.gov/ccgg/trends/mlo.html</a></li>
@@ -1010,7 +1007,7 @@
             svg.appendChild(marker);
         }
 
-        function calculateCO2Journey() {
+        function calculateCO2Age() {
             const birthYearValue = document.getElementById('birthYear').value;
             const birthMonth = parseInt(document.getElementById('birthMonth').value);
             
