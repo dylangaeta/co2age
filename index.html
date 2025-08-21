@@ -36,7 +36,9 @@
             font-weight: 300;
             margin-bottom: 0.5rem;
         }
-
+.sites-header, .sites-banner, .header-container, .sites-chrome-header, .sites-layout-hbox, {
+    display: none !important;
+}
         .header p {
             color: black;
             font-weight: 500;
@@ -52,17 +54,21 @@
         .chart-container {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
-            min-height: 700px;
+            display: flex;
+            flex-direction: column;
         }
 
         .chart-container svg {
             width: 100%;
-            height: 700px;
+            height: auto;
+            min-height: 400px;
+            max-height: 600px;
             border: 1px solid #e0e0e0;
             border-radius: 10px;
+            flex: 1;
         }
 
         .axis-label {
@@ -360,6 +366,20 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .chart-container {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .chart-container svg {
+                min-height: 300px;
+                max-height: 450px;
+            }
+
             .input-group {
                 flex-direction: column;
                 align-items: center;
@@ -400,13 +420,13 @@
                         <option value="2">February</option>
                         <option value="3">March</option>
                         <option value="4">April</option>
-                        <option value="5">May</option>
+                        <option value="5" selected>May</option>
                         <option value="6">June</option>
                         <option value="7">July</option>
                         <option value="8">August</option>
                         <option value="9">September</option>
                         <option value="10">October</option>
-                        <option value="11" selected>November</option>
+                        <option value="11">November</option>
                         <option value="12">December</option>
                     </select>
                 </div>
@@ -478,7 +498,7 @@
                         <option value="1962">1962</option>
                         <option value="1963">1963</option>
                         <option value="1964">1964</option>
-                        <option value="1965">1965</option>
+                        <option value="1965" selected>1965</option>
                         <option value="1966">1966</option>
                         <option value="1967">1967</option>
                         <option value="1968">1968</option>
@@ -506,7 +526,7 @@
                         <option value="1990">1990</option>
                         <option value="1991">1991</option>
                         <option value="1992">1992</option>
-                        <option value="1993" selected>1993</option>
+                        <option value="1993">1993</option>
                         <option value="1994">1994</option>
                         <option value="1995">1995</option>
                         <option value="1996">1996</option>
@@ -547,7 +567,7 @@
 
         <div class="results" id="results">
             <div id="iceCoreBanner" class="special-note" style="display: none; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);">
-                🎉 Your CO<sub>2</sub> age is based on Antarctic ice core data, which provides a record of past CO<sub>2</sub> levels from air bubbles trapped in the ice.
+                🧊 Your CO<sub>2</sub> age is based on Antarctic ice core data, which provides a record of past CO<sub>2</sub> levels from air bubbles trapped in the ice.
             </div>
             
             <div class="co2-age-banner" id="co2AgeBanner" style="display: none;">
@@ -579,9 +599,8 @@
             
             <div style="text-align: center;">
                 <button class="download-btn" onclick="downloadCO2AgeImage()" id="downloadBtn">
-                    📱 Download & Share Your CO<sub>2</sub> Age
+                    ⬇️ Download & Share Your CO<sub>2</sub> Age
                 </button>
-                <p style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">Share on social media and ask friends about their CO<sub>2</sub> age!</p>
             </div>
         </div>
 
@@ -594,52 +613,66 @@
 
         <div class="understanding-section">
             <h3>Understanding Your CO<sub>2</sub> Age</h3>
-            <p>Your "CO<sub>2</sub> age" represents how much atmospheric carbon dioxide has increased during your lifetime. This metric helps put climate change into personal perspective by contextualizing the rapid global CO<sub>2</sub> increase that has occurred during your lifetime.</p>
+            <p>🔥 Your "CO<sub>2</sub> age" represents how much atmospheric carbon dioxide has increased during your lifetime. This metric helps put climate change into personal perspective by contextualizing the rapid global CO<sub>2</sub> increase that has occurred during your lifetime.</p>
                         
-            <p>When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub>, measured in parts per million (ppm). Since then, human activities - primarily fossil fuel burning - have added more and more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age represents the total increase in CO<sub>2</sub> concentration that has occurred during your lifetime, providing a personal reference point to the global CO<sub>2</sub> increase you've witnessed.</p>
+            <p>🌏 When you were born, the atmosphere contained a specific concentration of CO<sub>2</sub>, measured in parts per million (ppm). Since then, human activities - primarily fossil fuel burning - have added more and more CO<sub>2</sub> to the atmosphere. Your CO<sub>2</sub> age represents the total increase in CO<sub>2</sub> concentration that has occurred during your lifetime, providing a personal reference point to the global CO<sub>2</sub> increase you've witnessed.</p>
             
-            <p>This increase isn't just a number - it represents a fundamental shift in our planet's atmospheric composition that affects global temperatures, weather patterns, precipitation, global ecosystems, and even human health. By understanding your personal CO<sub>2</sub> age, you can better appreciate the scale and rate at which atmospheric CO<sub>2</sub> has increased in your few short years on Earth.</p>
+            <p>🌍 This increase isn't just a number - it represents a fundamental shift in our planet's atmospheric composition that affects global temperatures, weather patterns, precipitation, global ecosystems, and even human health. By understanding your personal CO<sub>2</sub> age, you can better appreciate the scale and rate at which atmospheric CO<sub>2</sub> has increased in your few short years on Earth.</p>
 
-            <p><strong>🌎 </strong> CO<sub>2</sub> age is not a one-to-one function — you may share the same CO<sub>2</sub> age as someone born in a different year, uniting us across generations in our shared climate-CO<sub>2</sub> trajectory. Due to the seasonal fluctuations in atmospheric CO<sub>2</sub>, people born months or even years apart can have similar CO<sub>2</sub> ages.</p>
+            <p>🌎 CO<sub>2</sub> age is not a one-to-one function — you may share the same CO<sub>2</sub> age as someone born in a different year, uniting us across generations in our shared climate-CO<sub>2</sub> trajectory. Due to the seasonal fluctuations in atmospheric CO<sub>2</sub>, people born months or even years apart can have similar CO<sub>2</sub> ages.</p>
         </div>
 
         <div class="seasonal-cycle">
             <h3>Understanding the Seasonal CO<sub>2</sub> Cycle</h3>
-            <p>The Keeling Curve shows a distinctive sinusoidal or "sawtooth" pattern with regular peaks and troughs each year, on top of a steadily increasing baseline. This seasonal cycle is driven by the annual cycle in plant respiration in the Northern Hemisphere, where most of Earth's terrestrial biomass is located.</p>
+            <p>♻️ The Keeling Curve shows a distinctive sinusoidal or "sawtooth" pattern with regular peaks and troughs each year, on top of a steadily increasing baseline. This seasonal cycle is driven by the annual cycle in plant respiration in the Northern Hemisphere, where most of Earth's terrestrial biomass is located.</p>
             
-            <p><strong>Spring and Summer (CO<sub>2</sub> decreases):</strong> As plants photosynthesize and grow, they absorb large amounts of CO<sub>2</sub> from the atmosphere and convert it into organic biomass. This natural process temporarily reduces atmospheric CO<sub>2</sub> concentrations, leading to the annual minimum typically observed in late summer.</p>
+            <p><strong>📉 Spring and Summer (CO<sub>2</sub> decreases):</strong> As plants photosynthesize and grow, they absorb large amounts of CO<sub>2</sub> from the atmosphere and convert it into organic biomass. This natural process temporarily reduces atmospheric CO<sub>2</sub> concentrations, leading to the annual minimum typically observed in late summer.</p>
             
-            <p><strong>Fall and Winter (CO<sub>2</sub> increases):</strong> When plants decompose and respire, or when they reduce photosynthesis during winter months, plant respiration and microbial decomposition release stored carbon back to the atmosphere as CO<sub>2</sub>. This leads to the annual maximum typically observed in late winter or early spring.</p>
+            <p><strong>📈 Fall and Winter (CO<sub>2</sub> increases):</strong> When plants decompose and respire, or when they reduce photosynthesis during winter months, plant respiration and microbial decomposition release stored carbon back to the atmosphere as CO<sub>2</sub>. This leads to the annual maximum typically observed in late winter or early spring.</p>
             
-            <p>The seasonal amplitude of this natural "Earth breathing" cycle has been increasing over recent decades as atmospheric CO<sub>2</sub> levels rise and plant growing seasons change due to climate change. This expanding range demonstrates how Earth's ecosystems are responding to our changing atmosphere.</p>
+            <p>🌳 The seasonal amplitude of this natural "Earth breathing" cycle has been increasing over recent decades as atmospheric CO<sub>2</sub> levels rise and plant growing seasons change due to climate change. This expanding range demonstrates how Earth's ecosystems are responding to our changing atmosphere.</p>
         </div>
 
         <div class="explanation">
             <h3>About the Keeling Curve and CO<sub>2</sub> Monitoring</h3>
-            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory in Hawaii from 1958 to the present day.</p>
+            <p>The Keeling Curve is a graph of the annual variation and overall accumulation of carbon dioxide in Earth's atmosphere based on continuous measurements taken at the Mauna Loa Observatory in Hawaii from 1958 to the present day.The curve is named after scientist Dr. Charles David Keeling, who started the atmospheric monitoring program and supervised it until his death in 2005. The program has been continued under the leadership of Dr. Charles Keeling's son, Dr. Ralph F. Keeling, with support from the U.S. National Science Foundation and National Oceanic and Atmospheric Administration. </p>
                 
-            <p>The curve is named after scientist Dr. Charles David Keeling, who started the atmospheric monitoring program and supervised it until his death in 2005. The program has been continued under the leadership of Dr. Charles Keeling's son, Dr. Ralph F. Keeling with support from the U.S. National Science Foundation and National Oceanic and Atmospheric Administration. Keeling's measurements showed the first significant evidence of rapidly increasing carbon dioxide (CO<sub>2</sub>) levels in the atmosphere. Many scientists credit the Keeling curve with first bringing the world's attention to the current increase of CO<sub>2</sub> in the atmosphere.</p>
-            
-            <h3>Current Data Sources</h3>
-            <p>Today's atmospheric CO<sub>2</sub> measurements come from two primary sources working in parallel:</p>
-            
-            <p><strong>NOAA Global Monitoring Laboratory:</strong> NOAA GML conducts research on greenhouse gas and carbon cycle feedbacks, changes in aerosols, and surface radiation, and recovery of stratospheric ozone. Their Mauna Loa CO<sub>2</sub> measurements provide the official reference data used by climate scientists worldwide.</p>
-            
-            <p><strong>Scripps Institution of Oceanography:</strong> The original Keeling program continues under Ralph Keeling's direction, providing independent verification and additional scientific analysis of atmospheric CO<sub>2</sub> trends and seasonal patterns.</p>
-            
+            <p>Keeling's measurements showed the first significant evidence of rapidly increasing carbon dioxide (CO<sub>2</sub>) levels in the atmosphere. Many scientists credit the Keeling curve with first bringing the world's attention to the current increase of CO<sub>2</sub> in the atmosphere.</p>
+                  
             <h3>Historical Context and Significance</h3>
-            <p>Mauna Loa was chosen as a long-term monitoring site due to its remote location, isolation from anthropogenic activities, and its lack of vegetation.</p>
+            <p>Mauna Loa was chosen as a long-term monitoring site due to its remote location, isolation from anthropogenic activities, and its lack of vegetation.  </p>
             
             <p>The measurements collected at Mauna Loa Observatory show a steady increase in mean atmospheric CO<sub>2</sub> concentration from 313 ppm in March 1958 to 428 ppm in July 2025. The amount of carbon dioxide in the atmosphere has risen more than 50 percent since humans began burning fossil fuels for energy.</p>
             
+      <h3>Data Sources</h3>
+            <p>Today's atmospheric CO<sub>2</sub> measurements come from two research labs working in parallel:</p>
+            
+            <p><strong>NOAA Global Monitoring Laboratory:</strong> NOAA GML conducts research on greenhouse gases and the carbon cycle, aerosols, radiation, and stratospheric ozone. Their Mauna Loa CO<sub>2</sub> measurements provide the highly-trusted reference data used by climate scientists worldwide.</p>
+            
+            <p><strong>Scripps Institution of Oceanography:</strong> The original Keeling program continues under Dr. Ralph Keeling's direction, providing independent verification and additional scientific analysis of atmospheric CO<sub>2</sub> trends and seasonal patterns.</p>
+
             <h3>Additional Resources</h3>
             <p>For the most up-to-date CO<sub>2</sub> measurements, scientific analyses, and comprehensive historical data, visit:</p>
-            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                <li><strong>Scripps CO<sub>2</sub> Program:</strong> <a href="https://scrippsco2.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">scrippsco2.ucsd.edu</a></li>
-                <li><strong>NOAA Trends in CO<sub>2</sub>:</strong> <a href="https://gml.noaa.gov/ccgg/trends/mlo.html" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">gml.noaa.gov/ccgg/trends/mlo.html</a></li>
-                <li><strong>Keeling Curve:</strong> <a href="https://keelingcurve.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600;">keelingcurve.ucsd.edu</a></li>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem; list-style-type: disc;">
+                <li style="margin-bottom: 0.5rem;"><strong>Scripps CO<sub>2</sub> Program:</strong><br><a href="https://scrippsco2.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600; word-break: break-all;">scrippsco2.ucsd.edu</a></li>
+                <li style="margin-bottom: 0.5rem;"><strong>NOAA Trends in CO<sub>2</sub>:</strong><br><a href="https://gml.noaa.gov/ccgg/trends/mlo.html" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600; word-break: break-all;">gml.noaa.gov/ccgg/trends/mlo.html</a></li>
+                <li style="margin-bottom: 0.5rem;"><strong>Keeling Curve:</strong><br><a href="https://keelingcurve.ucsd.edu" target="_blank" style="color: #de2d26; text-decoration: none; font-weight: 600; word-break: break-all;">keelingcurve.ucsd.edu</a></li>
             </ul>
             <p>These sites provide real-time data updates, research publications, and additional educational resources about atmospheric CO<sub>2</sub> monitoring.</p>
+        </div>
+
+        <div class="understanding-section">
+            <h3 style="text-align: center; margin-bottom: 1.5rem;">Share Your CO<sub>2</sub> Age</h3>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <p style="color: #de2d26; font-size: 2rem; font-weight: bold; margin-bottom: 1.5rem; word-break: break-all; overflow-wrap: break-word;">https://www.yourco2age.com</p>
+                <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+                    <button onclick="copyWebsiteLink()" style="background: #059669; color: white; padding: 1rem 2rem; border-radius: 25px; font-weight: 600; border: none; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(5, 150, 105, 0.4)'" onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 15px rgba(5, 150, 105, 0.3)'">
+                        🔗 Copy Link to Share
+                    </button>
+                </div>
+                <p style="color: #333; font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 600;">What's your CO<sub>2</sub> age?</p>
+                <p style="color: #de2d26; font-size: 1.1rem; font-weight: bold;">#CO2Age #ClimateChange</p>
+            </div>
         </div>
     </div>
 
@@ -815,7 +848,7 @@
             }
             
             // Calculate scales
-            const xMin = 1955;
+            const xMin = 1950;
             const xMax = 2030;
             const yMin = 275;
             const yMax = 440;
@@ -836,7 +869,7 @@
             svg.appendChild(rect);
             
             // Create grid lines
-            for (let year = 1955; year <= 2030; year += 5) {
+            for (let year = 1950; year <= 2030; year += 5) {
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('x1', xScale(year));
                 line.setAttribute('y1', margin.top);
@@ -847,7 +880,7 @@
                 svg.appendChild(line);
             }
             
-            for (let co2 = 280; co2 <= 440; co2 += 20) {
+            for (let co2 = 280; co2 <= 440; co2 += 10) {
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('x1', margin.left);
                 line.setAttribute('y1', yScale(co2));
@@ -876,7 +909,7 @@
             preIndustrialLabel.setAttribute('text-anchor', 'end');
             preIndustrialLabel.setAttribute('class', 'axis-label');
             preIndustrialLabel.setAttribute('fill', '#666');
-            preIndustrialLabel.textContent = 'Pre-Industrial CO₂ levels (280 ppm)';
+            preIndustrialLabel.textContent = 'Pre-Industrial CO2 levels (280 ppm)';
             svg.appendChild(preIndustrialLabel);
             
             // Plot data points
@@ -924,7 +957,7 @@
             svg.appendChild(yAxis);
             
             // X-axis labels
-            for (let year = 1955; year <= 2030; year += 5) {
+            for (let year = 1950; year <= 2030; year += 10) {
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 text.setAttribute('x', xScale(year));
                 text.setAttribute('y', margin.top + height + 25);
@@ -960,7 +993,7 @@
             yTitle.setAttribute('text-anchor', 'middle');
             yTitle.setAttribute('class', 'axis-title');
             yTitle.setAttribute('transform', `rotate(-90, 30, ${margin.top + height/2})`);
-            yTitle.textContent = 'Atmospheric CO₂ (ppm)';
+            yTitle.textContent = 'Atmospheric CO2 (ppm)';
             svg.appendChild(yTitle);
         }
 
@@ -974,7 +1007,7 @@
             const height = 700 - margin.top - margin.bottom;
             
             // Calculate scales
-            const xMin = 1955;
+            const xMin = 1950;
             const xMax = 2030;
             const yMin = 275;
             const yMax = 440;
@@ -982,13 +1015,9 @@
             const xScale = (x) => margin.left + ((x - xMin) / (xMax - xMin)) * width;
             const yScale = (y) => height + margin.top - ((y - yMin) / (yMax - yMin)) * height;
             
-            // Remove existing birth marker and increase line
-            const existingMarker = svg.querySelector('.birth-marker');
-            if (existingMarker) existingMarker.remove();
-            const existingIncreaseLine = svg.querySelector('.increase-line');
-            if (existingIncreaseLine) existingIncreaseLine.remove();
-            const existingIncreaseLabel = svg.querySelector('.increase-label');
-            if (existingIncreaseLabel) existingIncreaseLabel.remove();
+            // Remove existing birth marker and increase line elements
+            const existingElements = svg.querySelectorAll('.birth-marker, .increase-line, .increase-label');
+            existingElements.forEach(element => element.remove());
             
             // Add CO2 increase visualization FIRST (so it appears behind other elements)
             const currentCO2 = co2Data[2025][6]; // July 2025
@@ -1036,9 +1065,9 @@
             // Create background for label
             const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
             labelBg.setAttribute('x', labelX - 5);
-            labelBg.setAttribute('y', labelY - 25);
+            labelBg.setAttribute('y', labelY - 35);
             labelBg.setAttribute('width', '140');
-            labelBg.setAttribute('height', '50');
+            labelBg.setAttribute('height', '70');
             labelBg.setAttribute('fill', 'rgba(245, 158, 11, 0.9)');
             labelBg.setAttribute('stroke', '#f59e0b');
             labelBg.setAttribute('stroke-width', '2');
@@ -1053,7 +1082,7 @@
             increaseText1.setAttribute('text-anchor', 'middle');
             increaseText1.setAttribute('class', 'increase-label');
             increaseText1.setAttribute('fill', 'white');
-            increaseText1.setAttribute('font-size', '14');
+            increaseText1.setAttribute('font-size', '24');
             increaseText1.setAttribute('font-weight', 'bold');
             increaseText1.setAttribute('font-family', 'Segoe UI, sans-serif');
             increaseText1.textContent = `+${totalIncrease.toFixed(1)} ppm`;
@@ -1061,11 +1090,11 @@
             
             const increaseText2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             increaseText2.setAttribute('x', labelX + 70);
-            increaseText2.setAttribute('y', labelY + 8);
+            increaseText2.setAttribute('y', labelY + 20);
             increaseText2.setAttribute('text-anchor', 'middle');
             increaseText2.setAttribute('class', 'increase-label');
             increaseText2.setAttribute('fill', 'white');
-            increaseText2.setAttribute('font-size', '12');
+            increaseText2.setAttribute('font-size', '24');
             increaseText2.setAttribute('font-weight', 'bold');
             increaseText2.setAttribute('font-family', 'Segoe UI, sans-serif');
             increaseText2.textContent = `(+${percentIncrease.toFixed(1)}%)`;
@@ -1074,7 +1103,7 @@
             // Add hover interaction to the label
             [labelBg, increaseText1, increaseText2].forEach(element => {
                 element.addEventListener('mouseenter', (e) => {
-                    tooltip.innerHTML = `CO₂ increase during your lifetime:<br>+${totalIncrease.toFixed(1)} ppm (+${percentIncrease.toFixed(1)}%)`;
+                    tooltip.innerHTML = `CO2 increase during your lifetime:<br>+${totalIncrease.toFixed(1)} ppm (+${percentIncrease.toFixed(1)}%)`;
                     tooltip.style.display = 'block';
                     tooltip.style.left = (e.pageX + 10) + 'px';
                     tooltip.style.top = (e.pageY - 10) + 'px';
@@ -1142,7 +1171,7 @@
             if (birthYear >= 1900 && birthYear <= 1957) {
                 // Ice core data
                 iceCoreBanner.style.display = 'block';
-                birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm) - Ice Core Data';
+                birthLabel.innerHTML = 'CO<sub>2</sub> at Birth (ppm) - Ice Core data';
             } else if (birthYear < 1900) {
                 // Before available records
                 iceCoreBanner.style.display = 'block';
@@ -1181,12 +1210,7 @@
         }
 
         // Initialize scatter plot on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            createScatterPlot();
-        });
-
-        // Make function globally available
-        window.calculateCO2Age = calculateCO2Age;
+        document.addEventListener('DOMContentLoaded', createScatterPlot);
         
         // Download CO2 Age Image Function
         async function downloadCO2AgeImage() {
@@ -1206,79 +1230,119 @@
                     });
                 }
 
-                // Create a container with the elements we want to capture
+                // Create Instagram Story container (1280x2120 - expanded by 100px each direction)
                 const container = document.createElement('div');
-                container.style.width = '1080px';
+                container.style.width = '1280px';
+                container.style.height = '2120px';
                 container.style.background = 'linear-gradient(135deg, #08306b 0%, #2171b5 10%, #4292c6 20%, #6baed6 30%, #9ecae1 40%, #c6dbef 50%, #deebf7 60%, #fee0d2 70%, #fcbba1 80%, #fc9272 90%, #fb6a4a 95%, #de2d26 100%)';
-                container.style.padding = '20px';
+                container.style.padding = '120px'; // Increased from 20px to 120px (adds 100px on each side)
                 container.style.fontFamily = '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
                 container.style.position = 'absolute';
                 container.style.left = '-9999px';
                 container.style.top = '0';
+                container.style.display = 'flex';
+                container.style.flexDirection = 'column';
                 
-                // Add title
-                const title = document.createElement('div');
-                title.innerHTML = '<h1 style="color: white; font-size: 2.5rem; text-align: center; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">My CO<sub>2</sub> Age</h1>';
-                container.appendChild(title);
+                // Top spacer
+                const topSpacer = document.createElement('div');
+                topSpacer.style.flex = '2';
+                topSpacer.style.minHeight = '100px';
+                container.appendChild(topSpacer);
                 
-                const subtitle = document.createElement('div');
-                subtitle.innerHTML = '<p style="color: white; font-size: 1rem; text-align: center; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">How much atmospheric CO<sub>2</sub> has increased during my lifetime</p>';
-                container.appendChild(subtitle);
+                // CO2 age banner
+                const co2AgeValue = document.getElementById('co2AgeValue').textContent;
+                const co2Banner = document.createElement('div');
+                co2Banner.style.background = 'linear-gradient(135deg, #0c2340 0%, #1a365d 25%, #2d5a87 50%, #4facfe 75%, #00f2fe 100%)';
+                co2Banner.style.color = 'white';
+                co2Banner.style.padding = '2rem';
+                co2Banner.style.borderRadius = '20px';
+                co2Banner.style.textAlign = 'center';
+                co2Banner.style.boxShadow = '0 8px 25px rgba(79, 172, 254, 0.5)';
+                co2Banner.style.marginBottom = '1.5rem';
+                co2Banner.style.fontSize = '2rem';
+                co2Banner.style.fontWeight = '700';
+                co2Banner.innerHTML = `
+                    <div>My CO<sub>2</sub> age is:</div>
+                    <div style="font-size: 3rem; margin-top: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${co2AgeValue}</div>
+                `;
+                container.appendChild(co2Banner);
                 
-                // Clone and add the CO2 age banner
-                const co2Banner = document.getElementById('co2AgeBanner');
-                if (co2Banner && co2Banner.style.display !== 'none') {
-                    const bannerClone = co2Banner.cloneNode(true);
-                    bannerClone.style.marginBottom = '1rem';
-                    bannerClone.style.fontSize = '1.5rem';
-                    bannerClone.querySelector('.age-value').style.fontSize = '2.5rem';
-                    container.appendChild(bannerClone);
-                }
-                
-                // Clone and add the ice core banner if visible
-                const iceCoreBanner = document.getElementById('iceCoreBanner');
-                if (iceCoreBanner && iceCoreBanner.style.display !== 'none') {
-                    const iceBannerClone = iceCoreBanner.cloneNode(true);
-                    iceBannerClone.style.marginBottom = '1rem';
-                    iceBannerClone.style.fontSize = '0.9rem';
-                    iceBannerClone.style.padding = '1rem';
-                    container.appendChild(iceBannerClone);
-                }
-                
-                // Clone and add the stats grids
+                // Stats grids - force desktop layout for consistent download
                 const statsGrid = document.querySelector('.stats-grid');
                 if (statsGrid) {
                     const statsClone = statsGrid.cloneNode(true);
-                    statsClone.style.marginBottom = '1rem';
+                    statsClone.style.marginBottom = '1.5rem';
+                    // Force 2-column grid regardless of device
+                    statsClone.style.display = 'grid';
+                    statsClone.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                    statsClone.style.gap = '1.5rem';
                     container.appendChild(statsClone);
                 }
                 
                 const statsGrid2 = document.querySelector('.stats-grid-second');
                 if (statsGrid2) {
                     const stats2Clone = statsGrid2.cloneNode(true);
-                    stats2Clone.style.marginBottom = '1rem';
+                    stats2Clone.style.marginBottom = '0';
+                    // Force 2-column grid regardless of device
+                    stats2Clone.style.display = 'grid';
+                    stats2Clone.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                    stats2Clone.style.gap = '1.5rem';
                     container.appendChild(stats2Clone);
                 }
                 
-                // Clone and add the chart
+                // Reduced middle spacer to bring chart closer to summary tiles
+                const middleSpacer = document.createElement('div');
+                middleSpacer.style.flex = '1';
+                middleSpacer.style.minHeight = '20px'; // Reduced from 80px to 20px
+                container.appendChild(middleSpacer);
+                
+                // Chart with white background - full width, flexible height
                 const chartContainer = document.querySelector('.chart-container');
                 if (chartContainer) {
                     const chartClone = chartContainer.cloneNode(true);
-                    chartClone.style.marginBottom = '1rem';
-                    chartClone.style.padding = '1rem';
-                    // Scale down the chart for better fit
-                    chartClone.style.transform = 'scale(0.85)';
+                    chartClone.style.marginBottom = '80px';
+                    chartClone.style.padding = '0'; // Remove padding to maximize chart space
+                    chartClone.style.width = '100%';
+                    chartClone.style.backgroundColor = 'white';
+                    chartClone.style.borderRadius = '20px';
+                    chartClone.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                    chartClone.style.transform = 'none';
                     chartClone.style.transformOrigin = 'center top';
+                    chartClone.style.overflow = 'hidden'; // Ensure content fits within rounded corners
+                    
+                    // Fix chart title and make SVG fill container width
+                    const chartTitle = chartClone.querySelector('.chart-title');
+                    if (chartTitle) {
+                        chartTitle.style.color = '#333';
+                        chartTitle.style.fontWeight = '600';
+                        chartTitle.style.padding = '1.5rem 1.5rem 1rem 1.5rem'; // Add padding only to title
+                        chartTitle.style.margin = '0';
+                    }
+                    
+                    const svgElement = chartClone.querySelector('svg');
+                    if (svgElement) {
+                        svgElement.style.backgroundColor = 'white';
+                        svgElement.style.width = '100%';
+                        svgElement.style.height = 'auto';
+                        svgElement.style.maxHeight = 'none';
+                        svgElement.style.border = 'none'; // Remove border that might cause spacing
+                        svgElement.style.borderRadius = '0'; // Remove border radius from SVG
+                        svgElement.style.display = 'block'; // Ensure block display
+                        svgElement.style.padding = '0 1.5rem 1.5rem 1.5rem'; // Add padding to SVG content
+                        svgElement.style.boxSizing = 'border-box';
+                        svgElement.setAttribute('viewBox', '0 0 800 700');
+                        svgElement.setAttribute('preserveAspectRatio', 'none'); // Allow stretching to fill width
+                    }
+                    
                     container.appendChild(chartClone);
                 }
                 
-                // Add footer
+                // Footer with website and copy link
                 const footer = document.createElement('div');
                 footer.innerHTML = `
-                    <div style="background: rgba(255, 255, 255, 0.95); padding: 1.5rem; border-radius: 20px; text-align: center; margin-top: 1rem;">
-                        <p style="color: #333; font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 600;">What's your CO<sub>2</sub> age?</p>
-                        <p style="color: #666; font-size: 0.95rem; margin-bottom: 0.75rem;">Calculate yours at <strong style="color: #de2d26;">www.yourco2age.com</strong></p>
-                        <p style="color: #de2d26; font-size: 1rem; font-weight: bold;">#CO2Age #ClimateChange</p>
+                    <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 20px; text-align: center;">
+                        <p style="color: #333; font-size: 1.6rem; margin-bottom: 1rem; font-weight: 600;">What's your CO<sub>2</sub> age?</p>
+                        <p style="color: #de2d26; font-size: 2rem; margin-bottom: 0; font-weight: bold;">Calculate yours at www.yourco2age.com</p>
                     </div>
                 `;
                 container.appendChild(footer);
@@ -1286,45 +1350,97 @@
                 // Add to document temporarily
                 document.body.appendChild(container);
                 
-                // Capture the container
+                // Capture image (same for all devices) - High DPI for crisp quality
                 const canvas = await html2canvas(container, {
-                    width: 1080,
-                    height: container.offsetHeight,
-                    scale: 1,
+                    width: 1280,
+                    height: 2120,
+                    scale: 2, // Increased from 1 to 2 for higher DPI (equivalent to 192 DPI)
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: null
                 });
                 
-                // Remove temporary container
                 document.body.removeChild(container);
                 
-                // Download the image
+                // Detect mobile device for delivery method only
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                
+                // Same blob creation, different delivery
                 canvas.toBlob(function(blob) {
-                    const co2AgeValue = document.getElementById('co2AgeValue').textContent;
                     const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `my-co2-age-${co2AgeValue.replace('+', '').replace(' ppm', 'ppm').replace('.', '-')}.png`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
+                    
+                    if (isMobile) {
+                        // Mobile: Direct download
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `my-co2-age-${co2AgeValue.replace('+', '').replace(' ppm', 'ppm').replace('.', '-')}.png`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    } else {
+                        // Desktop: Open in new tab
+                        window.open(url, '_blank');
+                        // Clean up URL after 30 seconds
+                        setTimeout(() => {
+                            URL.revokeObjectURL(url);
+                        }, 30000);
+                    }
                     
                     downloadBtn.disabled = false;
-                    downloadBtn.innerHTML = '📱 Download & Share Your CO<sub>2</sub> Age';
+                    downloadBtn.innerHTML = '⬇️ Download & Share Your CO<sub>2</sub> Age';
                 }, 'image/png');
                 
             } catch (error) {
                 console.error('Error creating image:', error);
                 downloadBtn.disabled = false;
-                downloadBtn.innerHTML = '📱 Download & Share Your CO<sub>2</sub> Age';
+                downloadBtn.innerHTML = '⬇️ Download & Share Your CO<sub>2</sub> Age';
                 alert('Sorry, there was an error creating the image. Please try again.');
             }
         }
         
-        // Make download function globally available
+        // Copy website link function
+        function copyWebsiteLink() {
+            const url = 'https://www.yourco2age.com';
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            const showSuccess = () => {
+                button.innerHTML = '✅ Link Copied!';
+                button.style.background = '#10b981';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = '#059669';
+                }, 2000);
+            };
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(showSuccess).catch(() => {
+                    // Fallback method
+                    const textArea = document.createElement('textarea');
+                    textArea.value = url;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showSuccess();
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showSuccess();
+            }
+        }
+        
+        // Make functions globally available
+        window.calculateCO2Age = calculateCO2Age;
         window.downloadCO2AgeImage = downloadCO2AgeImage;
+        window.copyWebsiteLink = copyWebsiteLink;
     </script>
 </body>
 </html>
